@@ -30,6 +30,17 @@ public class User {
                     inverseJoinColumns = @JoinColumn(name = "taskId"))
     List<Task> tasks;
 
+    public User(int id, String username, String password, List<Company> companies, List<Task> tasks) {
+        this.id = id;
+        this.username = username;
+        this.password = password;
+        this.companies = companies;
+        this.tasks = tasks;
+    }
+
+
+    public User(){}
+
     public int getId() {
         return id;
     }
