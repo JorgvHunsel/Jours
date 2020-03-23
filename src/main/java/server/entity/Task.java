@@ -26,9 +26,9 @@ public class Task {
     private Project project;
 
     @ManyToMany(mappedBy = "tasks")
-    List<User> userTasks;
+    List<DAOUser> userTasks;
 
-    public Task(int id, String name, String description, String status, Project project, List<User> userTasks) {
+    public Task(int id, String name, String description, String status, Project project, List<DAOUser> userTasks) {
         this.id = id;
         this.name = name;
         this.description = description;
@@ -80,11 +80,11 @@ public class Task {
         this.project = project;
     }
 
-    public List<User> getUserTasks() {
+    public List<DAOUser> getUserTasks() {
         return userTasks;
     }
 
-    public void setUserTasks(List<User> userTasks) {
+    public void setUserTasks(List<DAOUser> userTasks) {
         this.userTasks = userTasks;
     }
 }

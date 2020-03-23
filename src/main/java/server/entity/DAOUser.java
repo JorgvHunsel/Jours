@@ -8,7 +8,7 @@ import java.util.List;
 @Entity
 @Table(name="`user`")
 @Data
-public class User {
+public class DAOUser {
 
     @Id
     @Column(name = "id")
@@ -30,7 +30,7 @@ public class User {
                     inverseJoinColumns = @JoinColumn(name = "taskId"))
     List<Task> tasks;
 
-    public User(int id, String username, String password, List<Company> companies, List<Task> tasks) {
+    public DAOUser(int id, String username, String password, List<Company> companies, List<Task> tasks) {
         this.id = id;
         this.username = username;
         this.password = password;
@@ -39,7 +39,7 @@ public class User {
     }
 
 
-    public User(){}
+    public DAOUser(){}
 
     public int getId() {
         return id;

@@ -24,9 +24,9 @@ public class Work {
     private Time endTime;
 
     @ManyToOne
-    private User user;
+    private DAOUser user;
 
-    public Work(int id, Date date, Time beginTime, Time endTime, User user) {
+    public Work(int id, Date date, Time beginTime, Time endTime, DAOUser user) {
         this.id = id;
         this.date = date;
         this.beginTime = beginTime;
@@ -68,11 +68,11 @@ public class Work {
         this.endTime = endTime;
     }
 
-    public User getUser() {
+    public DAOUser getUser() {
         return user;
     }
 
-    public void setUser(User user) {
+    public void setUser(DAOUser user) {
         this.user = user;
     }
 }

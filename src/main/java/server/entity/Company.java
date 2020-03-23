@@ -22,7 +22,7 @@ public class Company {
                     joinColumns = @JoinColumn(name = "companyId"),
                     inverseJoinColumns = @JoinColumn(name = "userId")
             )
-    List<User> users;
+    List<DAOUser> users;
 
     public Company(int id, String name) {
         this.id = id;
@@ -47,11 +47,11 @@ public class Company {
         this.name = name;
     }
 
-    public List<User> getUsers() {
+    public List<DAOUser> getUsers() {
         return users;
     }
 
-    public void setUsers(List<User> users) {
+    public void setUsers(List<DAOUser> users) {
         this.users = users;
     }
 }
