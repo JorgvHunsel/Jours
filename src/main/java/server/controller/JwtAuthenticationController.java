@@ -1,6 +1,9 @@
 package server.controller;
 
+import java.util.Map;
 import java.util.Objects;
+
+import com.google.gson.Gson;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -29,6 +32,9 @@ public class JwtAuthenticationController {
     private JwtTokenUtil jwtTokenUtil;
     @Autowired
     private JwtUserDetailsService userDetailsService;
+
+    Gson gson = new Gson();
+
     @RequestMapping(value = "/authenticate", method = RequestMethod.POST)
     public ResponseEntity<?> createAuthenticationToken(@RequestBody JwtRequest authenticationRequest) throws Exception {
         authenticate(authenticationRequest.getUsername(), authenticationRequest.getPassword());
@@ -51,5 +57,14 @@ public class JwtAuthenticationController {
         } catch (BadCredentialsException e) {
             throw new Exception("INVALID_CREDENTIALS", e);
         }
+    }
+
+    @RequestMapping(value = "/isLegit", method = RequestMethod.POST)
+    public Boolean validateToken(@RequestBody Map<String, String> body){
+        String token = body.get("token");
+        String username = body.get("username");
+        final UserDetails userDetails = userDetailsService.loadUserByUsername(username);
+
+        return jwtTokenUtil.validateToken(token, userDetails);
     }
 }
