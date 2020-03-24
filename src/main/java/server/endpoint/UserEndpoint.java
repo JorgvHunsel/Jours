@@ -32,4 +32,8 @@ public class UserEndpoint {
     public DAOUser getUserByName(String username){
         return userRepository.findByUsername(username);
     }
+
+    public DAOUser getuserById(int id){
+        return userRepository.findById(id);
+    }
 }

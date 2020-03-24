@@ -10,6 +10,7 @@ import java.util.List;
 @Data
 public class Company {
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
     private int id;
 
@@ -19,14 +20,16 @@ public class Company {
     @ManyToMany
             @JoinTable(
                     name = "company_user",
-                    joinColumns = @JoinColumn(name = "companyId"),
-                    inverseJoinColumns = @JoinColumn(name = "userId")
+                    joinColumns = @JoinColumn(name = "company_id"),
+                    inverseJoinColumns = @JoinColumn(name = "user_id")
             )
     List<DAOUser> users;
 
-    public Company(int id, String name) {
-        this.id = id;
+
+
+    public Company(String name, List<DAOUser> users){
         this.name = name;
+        this.users = users;
     }
 
     public Company(){}

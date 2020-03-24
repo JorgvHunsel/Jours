@@ -7,5 +7,6 @@ import server.entity.DAOUser;
 @Repository
 public interface UserRepo extends JpaRepository<DAOUser, Integer> {
     DAOUser findByUsername(String username);
+    DAOUser findById(int id);
 
 }
