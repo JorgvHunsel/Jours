@@ -19,6 +19,9 @@ import org.springframework.web.bind.annotation.RestController;
 
 import server.config.JwtTokenUtil;
 import server.dto.UserDTO;
+import server.endpoint.UserEndpoint;
+import server.entity.DAOUser;
+import server.repository.UserRepo;
 import server.service.JwtUserDetailsService;
 import server.model.JwtRequest;
 import server.model.JwtResponse;
@@ -33,14 +36,22 @@ public class JwtAuthenticationController {
     @Autowired
     private JwtUserDetailsService userDetailsService;
 
+    @Autowired
+    UserRepo userRepository;
+
     Gson gson = new Gson();
+
+    UserEndpoint userEndpoint = new UserEndpoint();
 
     @RequestMapping(value = "/authenticate", method = RequestMethod.POST)
     public ResponseEntity<?> createAuthenticationToken(@RequestBody JwtRequest authenticationRequest) throws Exception {
         authenticate(authenticationRequest.getUsername(), authenticationRequest.getPassword());
         final UserDetails userDetails = userDetailsService
                 .loadUserByUsername(authenticationRequest.getUsername());
-        final String token = jwtTokenUtil.generateToken(userDetails);
+
+        DAOUser currentUser = userRepository.findByUsername(authenticationRequest.getUsername());
+        //hier moet een userid in komen
+        final String token = jwtTokenUtil.generateToken(userDetails, currentUser);
         return ResponseEntity.ok(new JwtResponse(token));
     }
 
