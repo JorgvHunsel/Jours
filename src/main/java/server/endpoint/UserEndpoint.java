@@ -4,13 +4,13 @@ import com.google.gson.Gson;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+import server.dto.CompanyDTO;
+import server.dto.UserDTO;
 import server.entity.DAOUser;
 import server.repository.UserRepo;
 
+import java.util.List;
 import java.util.Map;
 
 @RestController
@@ -35,5 +35,11 @@ public class UserEndpoint {
 
     public DAOUser getuserById(int id){
         return userRepository.findById(id);
+    }
+
+    @GetMapping("/test")
+    public ResponseEntity getCompaniesFromUser(){
+        UserDTO user = userRepository.findCompaniesByUser(17);
+        return new ResponseEntity(gson.toJson(user.getCompanies()), HttpStatus.OK);
     }
 }
