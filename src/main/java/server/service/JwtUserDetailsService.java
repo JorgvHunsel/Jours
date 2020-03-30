@@ -3,7 +3,6 @@ package server.service;
 import java.util.ArrayList;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -34,6 +33,11 @@ public class JwtUserDetailsService implements UserDetailsService {
     }
 
     public DAOUser save(UserDTO user) {
+//        UserDbDto newd =  new UserDbDto();
+//        return userRepo.save(newd);
+
+
+
         DAOUser newUser = new DAOUser();
         newUser.setUsername(user.getUsername());
         newUser.setPassword(bcryptEncoder.encode(user.getPassword()));
