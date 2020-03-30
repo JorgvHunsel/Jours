@@ -37,9 +37,12 @@ public class UserEndpoint {
         return userRepository.findById(id);
     }
 
-    @GetMapping("/test")
-    public ResponseEntity getCompaniesFromUser(){
-        UserDTO user = userRepository.findCompaniesByUser(17);
+
+
+
+    @GetMapping("/company/all")
+    public ResponseEntity getCompaniesFromUser(@RequestParam int userId){
+        UserDTO user = userRepository.findCompaniesByUser(userId);
         return new ResponseEntity(gson.toJson(user.getCompanies()), HttpStatus.OK);
     }
 }
