@@ -1,6 +1,7 @@
 package server.entity;
 
 import lombok.Data;
+import server.dto.CompanyDTO;
 
 import javax.persistence.*;
 import java.util.List;
@@ -30,6 +31,16 @@ public class Company {
     public Company(String name, List<DAOUser> users){
         this.name = name;
         this.users = users;
+    }
+
+    public Company(int id, String name){
+        this.id = id;
+        this.name = name;
+    }
+
+    public Company(CompanyDTO companyDTO){
+        this.id = companyDTO.getId();
+        this.name = companyDTO.getName();
     }
 
     public Company(){}

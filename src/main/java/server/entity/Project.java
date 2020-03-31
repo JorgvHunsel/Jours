@@ -11,6 +11,7 @@ import java.util.Date;
 public class Project {
     @Id
     @Column(name = "id")
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private int id;
 
     @Column(name = "name")
@@ -22,8 +23,7 @@ public class Project {
     @ManyToOne
     private Company company;
 
-    public Project(int id, String name, Date endDate, Company company) {
-        this.id = id;
+    public Project(String name, Date endDate, Company company) {
         this.name = name;
         this.endDate = endDate;
         this.company = company;

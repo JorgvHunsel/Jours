@@ -30,9 +30,9 @@ public class CompanyEndpoint {
     @PostMapping("/company/create")
     public ResponseEntity<String> createCompany(@RequestBody Map<String, String> body){
         String companyName = body.get("companyName");
-        String userId = body.get("userId");
+        int userId = Integer.parseInt(body.get("userId"));
 
-        DAOUser currentuser = userRepo.findById(Integer.parseInt(userId));
+        DAOUser currentuser = userRepo.findById(userId);
         currentuser.setCompanies(null);
         currentuser.setTasks(null);
 
