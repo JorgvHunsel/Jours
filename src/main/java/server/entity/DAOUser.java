@@ -31,6 +31,9 @@ public class DAOUser {
                     inverseJoinColumns = @JoinColumn(name = "taskId"))
     List<Task> tasks;
 
+    @OneToMany(mappedBy = "user")
+    List<CompanyUser> roles;
+
     public DAOUser(int id, String username, String password, List<Company> companies, List<Task> tasks) {
         this.id = id;
         this.username = username;

@@ -26,6 +26,9 @@ public class Company {
             )
     List<DAOUser> users;
 
+    @OneToMany(mappedBy = "company")
+    List<CompanyUser> roles;
+
 
 
     public Company(String name, List<DAOUser> users){
