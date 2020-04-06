@@ -30,6 +30,7 @@ public class CompanyUser {
     public CompanyUser() {
     }
 
+
     public CompanyUserKey getId() {
         return id;
     }

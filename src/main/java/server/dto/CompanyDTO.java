@@ -20,10 +20,11 @@ public class CompanyDTO {
     public CompanyDTO(Company company){
         this.id = company.getId();
         this.name = company.getName();
-
+        
         if(company.getUsers() != null) {
             for (DAOUser user : company.getUsers()) {
-                usersInCompany.add(new UserDTO(user.getId(), user.getUsername()));
+
+                usersInCompany.add(new UserDTO(user.getId(), user.getUsername(), company.getRoleFromUser(user.getId())));
             }
         }
     }

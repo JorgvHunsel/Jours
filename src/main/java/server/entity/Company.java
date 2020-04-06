@@ -71,4 +71,21 @@ public class Company {
     public void setUsers(List<DAOUser> users) {
         this.users = users;
     }
+
+    public String getRoleFromUser(int userId){
+        for(CompanyUser companyUser: roles){
+            if(userId == companyUser.user.getId() && this.id == companyUser.company.getId()){
+                return companyUser.role;
+            }
+        }
+        return null;
+    }
+
+    public List<CompanyUser> getRoles() {
+        return roles;
+    }
+
+    public void setRoles(List<CompanyUser> roles) {
+        this.roles = roles;
+    }
 }
