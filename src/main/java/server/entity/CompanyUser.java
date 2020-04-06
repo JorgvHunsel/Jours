@@ -30,6 +30,10 @@ public class CompanyUser {
     public CompanyUser() {
     }
 
+    public CompanyUser(String role){
+        this.role = role;
+    }
+
 
     public CompanyUserKey getId() {
         return id;

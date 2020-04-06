@@ -36,9 +36,8 @@ public class Company {
         this.users = users;
     }
 
-    public Company(int id, String name){
+    public Company(int id){
         this.id = id;
-        this.name = name;
     }
 
     public Company(CompanyDTO companyDTO){

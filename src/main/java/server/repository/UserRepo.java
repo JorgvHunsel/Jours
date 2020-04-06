@@ -13,7 +13,9 @@ import java.util.List;
 @Repository
 public interface UserRepo extends JpaRepository<DAOUser, Integer> {
     DAOUser findByUsername(String username);
-    DAOUser findById(int id);
+
+    @Query("SELECT new server.dto.UserDTO(u.id, u.username, u.password) FROM DAOUser u WHERE u.id = ?1")
+    UserDTO findById(int id);
 
     @Query("SELECT new server.dto.UserDTO(u) FROM DAOUser u WHERE u.id = ?1")
     UserDTO findCompaniesByUser(int id);

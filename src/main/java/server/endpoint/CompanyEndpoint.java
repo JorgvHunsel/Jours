@@ -9,6 +9,7 @@ import server.dto.UserDTO;
 import server.entity.Company;
 import server.entity.DAOUser;
 import server.repository.CompanyRepo;
+import server.repository.CompanyUserRepo;
 import server.repository.UserRepo;
 
 import java.util.ArrayList;
@@ -24,33 +25,34 @@ public class CompanyEndpoint {
     @Autowired
     UserRepo userRepo;
 
+    @Autowired
+    CompanyUserRepo companyUserRepo;
+
     Gson gson = new Gson();
 
     @PostMapping("/company/create")
-    public ResponseEntity<String> createCompany(@RequestBody Map<String, String> body){
+    public ResponseEntity<String> createCompany(@RequestBody Map<String, String> body) {
         String companyName = body.get("companyName");
         int userId = Integer.parseInt(body.get("userId"));
 
-        DAOUser currentuser = userRepo.findById(userId);
-        currentuser.setCompanies(null);
-        currentuser.setTasks(null);
-
-        //get user by id
-        //stop user in company
-        //save company
+        UserDTO userDTO = userRepo.findById(userId);
+        DAOUser user = new DAOUser(userDTO.getId(), userDTO.getUsername(), userDTO.getPassword());
 
         List<DAOUser> usersInCompany = new ArrayList<>();
-        usersInCompany.add(currentuser);
+        usersInCompany.add(user);
 
         Company newCompany = new Company(companyName, usersInCompany);
 
 
-        companyRepo.save(newCompany);
+        int companyId = companyRepo.save(newCompany).getId();
+        companyUserRepo.setRole("admin", companyId, userId);
+
+
         return new ResponseEntity<>(gson.toJson(newCompany), HttpStatus.OK);
     }
 
     @GetMapping("/company/users")
-    public ResponseEntity<String> getUsersFromCompany(@RequestParam int companyId){
+    public ResponseEntity<String> getUsersFromCompany(@RequestParam int companyId) {
         List<UserDTO> usersInCompany = companyRepo.findUsersFromCompany(companyId).getUsersInCompany();
         return new ResponseEntity<>(gson.toJson(usersInCompany), HttpStatus.OK);
     }

@@ -45,6 +45,12 @@ public class DAOUser {
 
     public DAOUser(){}
 
+    public DAOUser(int id, String username, String password){
+        this.id = id;
+        this.username = username;
+        this.password = password;
+    }
+
     public int getId() {
         return id;
     }
@@ -83,5 +89,13 @@ public class DAOUser {
 
     public void setTasks(List<Task> tasks) {
         this.tasks = tasks;
+    }
+
+    public List<CompanyUser> getRoles() {
+        return roles;
+    }
+
+    public void setRoles(List<CompanyUser> roles) {
+        this.roles = roles;
     }
 }
