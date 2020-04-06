@@ -7,21 +7,36 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class UserDTO {
+    private int id;
     private String username;
     private String password;
 
-    private List<CompanyDTO> companies = new ArrayList<>();
+    private List<CompanyDTO> companies;
 
-    public UserDTO() {
+    public UserDTO(int id, String username){
+        this.id = id;
+        this.username = username;
     }
 
     public UserDTO(DAOUser user){
         this.username = user.getUsername();
         this.password = user.getPassword();
 
+        companies = new ArrayList<>();
         for(Company comp: user.getCompanies()){
             companies.add(new CompanyDTO(comp));
         }
+    }
+
+    public UserDTO() {
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 
     public String getUsername() {

@@ -4,9 +4,8 @@ import com.google.gson.Gson;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+import server.dto.UserDTO;
 import server.entity.Company;
 import server.entity.DAOUser;
 import server.repository.CompanyRepo;
@@ -48,5 +47,11 @@ public class CompanyEndpoint {
 
         companyRepo.save(newCompany);
         return new ResponseEntity<>(gson.toJson(newCompany), HttpStatus.OK);
+    }
+
+    @GetMapping("/company/users")
+    public ResponseEntity<String> getUsersFromCompany(@RequestParam int companyId){
+        List<UserDTO> usersInCompany = companyRepo.findUsersFromCompany(companyId).getUsersInCompany();
+        return new ResponseEntity<>(gson.toJson(usersInCompany), HttpStatus.OK);
     }
 }
