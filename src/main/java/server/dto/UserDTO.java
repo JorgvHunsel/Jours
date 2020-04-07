@@ -26,7 +26,8 @@ public class UserDTO {
 
         companies = new ArrayList<>();
         for(Company comp: user.getCompanies()){
-            companies.add(new CompanyDTO(comp));
+            String role = comp.getRoleFromUser(user.getId());
+            companies.add(new CompanyDTO(comp, role));
         }
     }
 

@@ -13,7 +13,9 @@ public class CompanyDTO {
 
     private String name;
 
-    private List<UserDTO> usersInCompany = new ArrayList<>();
+    private List<UserDTO> usersInCompany;
+
+    private String userRole;
 
     public CompanyDTO(){}
 
@@ -22,10 +24,17 @@ public class CompanyDTO {
         this.name = company.getName();
 
         if(company.getUsers() != null) {
+            usersInCompany = new ArrayList<>();
             for (DAOUser user : company.getUsers()) {
                 usersInCompany.add(new UserDTO(user.getId(), user.getUsername(), company.getRoleFromUser(user.getId())));
             }
         }
+    }
+
+    public CompanyDTO(Company company, String userRole){
+        this.id = company.getId();
+        this.name = company.getName();
+        this.userRole = userRole;
     }
 
 
