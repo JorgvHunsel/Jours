@@ -12,5 +12,5 @@ public interface CompanyRepo extends JpaRepository<Company, Integer>{
     CompanyDTO findCompanyById(int id);
 
     @Query("select new server.dto.CompanyDTO(c) from Company c where c.id = ?1")
-    CompanyDTO findUsersFromCompany(int id);
+    CompanyDTO findUsersFromCompany(int companyId);
 }

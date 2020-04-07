@@ -1,10 +1,13 @@
 package server.endpoint;
 
 import com.google.gson.Gson;
+import io.jsonwebtoken.Claims;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import server.config.JwtTokenUtil;
+import server.dto.CompanyDTO;
 import server.dto.UserDTO;
 import server.entity.Company;
 import server.entity.DAOUser;
@@ -52,8 +55,10 @@ public class CompanyEndpoint {
     }
 
     @GetMapping("/company/users")
-    public ResponseEntity<String> getUsersFromCompany(@RequestParam int companyId) {
-        List<UserDTO> usersInCompany = companyRepo.findUsersFromCompany(companyId).getUsersInCompany();
-        return new ResponseEntity<>(gson.toJson(usersInCompany), HttpStatus.OK);
+    public ResponseEntity<String> getCompanyWithUsers(@RequestParam int companyId, @RequestHeader("UserId") int userId) {
+        CompanyDTO company = companyRepo.findUsersFromCompany(companyId);
+        company.setCurrentUserRole(userId);
+
+        return new ResponseEntity<>(gson.toJson(company), HttpStatus.OK);
     }
 }

@@ -12,9 +12,13 @@ import server.entity.Project;
 import server.repository.CompanyRepo;
 import server.repository.ProjectRepo;
 
+import java.text.DateFormat;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.time.LocalDateTime;
 import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 
 @RestController
@@ -29,16 +33,14 @@ public class ProjectEndpoint {
     Gson gson = new Gson();
 
     @PostMapping("/project/create")
-    public ResponseEntity<String> createProject(@RequestBody Map<String, String> body) {
+    public ResponseEntity<String> createProject(@RequestBody Map<String, String> body) throws ParseException {
         String projectName = body.get("projectName");
-        String endDate = body.get("endDate");
+        String endDate = body.get("endDate").substring(0,10);
         int companyId = Integer.parseInt(body.get("companyId"));
 
-        Date date = null;
-        try {
-            date = new SimpleDateFormat("dd/MM/yyyy").parse(endDate);
-        } catch (Exception ignored) {}
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
 
+        Date date = sdf.parse(endDate);
 
         CompanyDTO company = companyRepo.findCompanyById(companyId);
 

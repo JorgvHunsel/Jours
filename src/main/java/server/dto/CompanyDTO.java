@@ -1,9 +1,9 @@
 package server.dto;
 
 import server.entity.Company;
+import server.entity.CompanyUser;
 import server.entity.DAOUser;
 
-import javax.persistence.Entity;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -15,7 +15,9 @@ public class CompanyDTO {
 
     private List<UserDTO> usersInCompany;
 
-    private String userRole;
+    private List<CompanyUserDTO> roles;
+
+    private String currentUserRole;
 
     public CompanyDTO(){}
 
@@ -23,10 +25,22 @@ public class CompanyDTO {
         this.id = company.getId();
         this.name = company.getName();
 
-        if(company.getUsers() != null) {
-            usersInCompany = new ArrayList<>();
-            for (DAOUser user : company.getUsers()) {
-                usersInCompany.add(new UserDTO(user.getId(), user.getUsername(), company.getRoleFromUser(user.getId())));
+        setRoles(company);
+        setUsers(company);
+    }
+
+    private void setUsers(Company company) {
+        usersInCompany = new ArrayList<>();
+        for (DAOUser user : company.getUsers()) {
+            usersInCompany.add(new UserDTO(user.getId(), user.getUsername(), company.getRoleFromUser(user.getId())));
+        }
+    }
+
+    private void setRoles(Company company) {
+        roles = new ArrayList<>();
+        for(CompanyUser companyUser: company.getRoles()){
+            if(companyUser.getCompany().getId() == company.getId()){
+                roles.add(new CompanyUserDTO(companyUser.getUser().getId(), companyUser.getRole()));
             }
         }
     }
@@ -34,7 +48,7 @@ public class CompanyDTO {
     public CompanyDTO(Company company, String userRole){
         this.id = company.getId();
         this.name = company.getName();
-        this.userRole = userRole;
+        this.currentUserRole = userRole;
     }
 
 
@@ -66,5 +80,17 @@ public class CompanyDTO {
 
     public void setUsersInCompany(List<UserDTO> usersInCompany) {
         this.usersInCompany = usersInCompany;
+    }
+
+    public String getCurrentUserRole() {
+        return currentUserRole;
+    }
+
+    public void setCurrentUserRole(int userId) {
+        for(CompanyUserDTO role: roles){
+            if(role.getUserId() == userId){
+                this.currentUserRole = role.getRole();
+            }
+        }
     }
 }
