@@ -1,0 +1,41 @@
+[33mcommit 10668c6ab584255f90d77bd2def7b229b32118f9[m[33m ([m[1;36mHEAD -> [m[1;32mmaster[m[33m, [m[1;31morigin/master[m[33m)[m
+Author: Jorg Van Hunsel <jorg.van.hunsel@gmail.com>
+Date:   Mon Apr 13 14:21:31 2020 +0200
+
+    heroku settings pom
+
+[1mdiff --git a/pom.xml b/pom.xml[m
+[1mindex a08b25c..44c881b 100644[m
+[1m--- a/pom.xml[m
+[1m+++ b/pom.xml[m
+[36m@@ -29,6 +29,18 @@[m
+             <groupId>org.springframework.boot</groupId>[m
+             <artifactId>spring-boot-starter-data-jpa</artifactId>[m
+         </dependency>[m
+[32m+[m[32m        <dependency>[m
+[32m+[m[32m            <groupId>org.springframework.boot</groupId>[m
+[32m+[m[32m            <artifactId>spring-boot-starter-test</artifactId>[m
+[32m+[m[32m            <scope>test</scope>[m
+[32m+[m[32m            <exclusions>[m
+[32m+[m[32m                <exclusion>[m
+[32m+[m[32m                    <groupId>org.junit.vintage</groupId>[m
+[32m+[m[32m                    <artifactId>junit-vintage-engine</artifactId>[m
+[32m+[m[32m                </exclusion>[m
+[32m+[m[32m            </exclusions>[m
+[32m+[m[32m        </dependency>[m
+[32m+[m
+ [m
+ <!--        jwt-->[m
+         <dependency>[m
+[36m@@ -82,9 +94,9 @@[m
+         </dependency>[m
+         <!-- https://mvnrepository.com/artifact/postgresql/postgresql -->[m
+         <dependency>[m
+[31m-            <groupId>postgresql</groupId>[m
+[32m+[m[32m            <groupId>org.postgresql</groupId>[m
+             <artifactId>postgresql</artifactId>[m
+[31m-            <version>9.1-901-1.jdbc4</version>[m
+[32m+[m[32m            <version>9.4-1201-jdbc4</version>[m
+         </dependency>[m
+ [m
+ [m
