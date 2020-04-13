@@ -46,10 +46,8 @@ public class CompanyEndpoint {
 
         Company newCompany = new Company(companyName, usersInCompany);
 
-
         int companyId = companyRepo.save(newCompany).getId();
         companyUserRepo.setRole("admin", companyId, userId);
-
 
         return new ResponseEntity<>(gson.toJson(newCompany), HttpStatus.OK);
     }
