@@ -5,6 +5,7 @@ import io.jsonwebtoken.Claims;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 import server.config.JwtTokenUtil;
 import server.dto.CompanyDTO;
@@ -15,6 +16,7 @@ import server.repository.CompanyRepo;
 import server.repository.CompanyUserRepo;
 import server.repository.UserRepo;
 
+import java.security.Principal;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;

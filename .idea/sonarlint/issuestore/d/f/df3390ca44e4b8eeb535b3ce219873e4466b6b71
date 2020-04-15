@@ -1,0 +1,11 @@
+
+esquid:S00112>"FDefine and throw a dedicated exception instead of using a generic one.(Â††‘8Ñ°Øî.
+jsquid:S00112:"FDefine and throw a dedicated exception instead of using a generic one.(Œœ¤ºüÿÿÿÿ8Ñ›ÍÙ’.
+esquid:S00112D"FDefine and throw a dedicated exception instead of using a generic one.(ÈçïÕ8Ñ°Øî.
+Isquid:S1452."&Remove usage of generic wildcard type.(¤ƒ¹€úÿÿÿÿ8Ñ›ÍÙ’.
+Isquid:S1452:"&Remove usage of generic wildcard type.(Œœ¤ºüÿÿÿÿ8Ñ›ÍÙ’.
+jsquid:S00112B"FDefine and throw a dedicated exception instead of using a generic one.(êÆÖËùÿÿÿÿ8Ñ°Øî.
+msquid:S4488-"JReplace "@RequestMapping(method = RequestMethod.POST)" with "@PostMapping"(¶€»²ùÿÿÿÿ8Ñ›ÍÙ’.
+hsquid:S44889"JReplace "@RequestMapping(method = RequestMethod.POST)" with "@PostMapping"(ÚŞ•8Ñ›ÍÙ’.
+©%squid:RedundantThrowsDeclarationCheck:"lRemove the declaration of thrown exception 'java.lang.Exception', as it cannot be thrown from method's body.(Œœ¤ºüÿÿÿÿ8Ñ›ÍÙ’.
+msquid:S4488H"JReplace "@RequestMapping(method = RequestMethod.POST)" with "@PostMapping"(ùàİ«úÿÿÿÿ8ñÉ¶¾.
