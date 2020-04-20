@@ -3,7 +3,6 @@ package server.entity;
 import lombok.Data;
 
 import javax.persistence.*;
-import java.sql.Time;
 import java.util.Date;
 
 @Entity
@@ -11,29 +10,36 @@ import java.util.Date;
 @Data
 public class Work {
     @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "id")
     private int id;
 
-    @Column(name = "date")
-    private Date date;
+    @Column(name = "beginDate")
+    private Date beginDate;
 
-    @Column(name = "beginTime")
-    private Time beginTime;
-
-    @Column(name = "endTime")
-    private Time endTime;
+    @Column(name = "endDate")
+    private Date endDate;
 
     @ManyToOne
     private DAOUser user;
 
-    public Work(int id, Date date, Time beginTime, Time endTime, DAOUser user) {
+    @ManyToOne
+    private Project project;
+
+    public Work(int id, Date beginDate, Date endDate, DAOUser user, Project project) {
         this.id = id;
-        this.date = date;
-        this.beginTime = beginTime;
-        this.endTime = endTime;
+        this.beginDate = beginDate;
+        this.endDate = endDate;
         this.user = user;
+        this.project = project;
     }
 
+    public Work(Date beginDate, Date endDate, DAOUser user, Project project) {
+        this.beginDate = beginDate;
+        this.endDate = endDate;
+        this.user = user;
+        this.project = project;
+    }
     public Work(){}
 
     public int getId() {
@@ -44,28 +50,28 @@ public class Work {
         this.id = id;
     }
 
-    public Date getDate() {
-        return date;
+    public Date getBeginDate() {
+        return beginDate;
     }
 
-    public void setDate(Date date) {
-        this.date = date;
+    public void setBeginDate(Date beginDate) {
+        this.beginDate = beginDate;
     }
 
-    public Time getBeginTime() {
-        return beginTime;
+    public Date getEndDate() {
+        return endDate;
     }
 
-    public void setBeginTime(Time beginTime) {
-        this.beginTime = beginTime;
+    public void setEndDate(Date endDate) {
+        this.endDate = endDate;
     }
 
-    public Time getEndTime() {
-        return endTime;
+    public Project getProject() {
+        return project;
     }
 
-    public void setEndTime(Time endTime) {
-        this.endTime = endTime;
+    public void setProject(Project project) {
+        this.project = project;
     }
 
     public DAOUser getUser() {

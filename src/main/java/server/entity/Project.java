@@ -4,6 +4,7 @@ import lombok.Data;
 
 import javax.persistence.*;
 import java.util.Date;
+import java.util.List;
 
 @Entity
 @Table(name ="`project`")
@@ -23,10 +24,18 @@ public class Project {
     @ManyToOne
     private Company company;
 
+    @OneToMany
+    private List<Work> workList;
+
+
     public Project(String name, Date endDate, Company company) {
         this.name = name;
         this.endDate = endDate;
         this.company = company;
+    }
+
+    public Project(int projectId){
+        this.id = projectId;
     }
 
     public Project(){}

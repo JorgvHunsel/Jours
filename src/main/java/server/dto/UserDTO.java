@@ -31,6 +31,10 @@ public class UserDTO {
         }
     }
 
+    public UserDTO(int userId){
+        this.id = userId;
+    }
+
     public UserDTO() {
     }
 

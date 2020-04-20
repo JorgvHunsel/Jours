@@ -43,6 +43,9 @@ public class DAOUser {
     }
 
 
+    public DAOUser(int userId){
+        this.id = userId;
+    }
     public DAOUser(){}
 
     public DAOUser(int id, String username, String password){
