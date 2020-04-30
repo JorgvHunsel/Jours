@@ -12,15 +12,12 @@ import server.entity.Project;
 import server.repository.CompanyRepo;
 import server.repository.ProjectRepo;
 
-import java.security.Principal;
-import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.time.LocalDateTime;
 import java.util.Date;
 import java.util.List;
-import java.util.Locale;
 import java.util.Map;
+import java.util.TimeZone;
 
 @RestController
 public class ProjectEndpoint {
@@ -36,11 +33,11 @@ public class ProjectEndpoint {
     @PostMapping("/project/create")
     public ResponseEntity<String> createProject(@RequestBody Map<String, String> body) throws ParseException {
         String projectName = body.get("projectName");
-        String endDate = body.get("endDate").substring(0,10);
+        String endDate = body.get("endDate");
         int companyId = Integer.parseInt(body.get("companyId"));
 
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'");
+        sdf.setTimeZone(TimeZone.getTimeZone("UTC"));
         Date date = sdf.parse(endDate);
 
         CompanyDTO company = companyRepo.findCompanyById(companyId);

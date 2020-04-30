@@ -40,6 +40,12 @@ public class Work {
         this.user = user;
         this.project = project;
     }
+
+    public Work(Date beginDate, DAOUser user, Project project) {
+        this.beginDate = beginDate;
+        this.user = user;
+        this.project = project;
+    }
     public Work(){}
 
     public int getId() {

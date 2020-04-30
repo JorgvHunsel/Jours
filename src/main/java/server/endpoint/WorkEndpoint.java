@@ -6,6 +6,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import server.dto.UserDTO;
+import server.dto.WorkDTO;
 import server.entity.DAOUser;
 import server.entity.Project;
 import server.entity.Work;
@@ -47,11 +48,32 @@ public class WorkEndpoint {
             //ignore
         }
 
+        if(body.get("endDate") == null){
+            endDate = null;
+        }
+
         Work newWork = new Work(beginDate, endDate, new DAOUser(userId), new Project(projectId));
         workRepo.save(newWork);
 
         return new ResponseEntity(gson.toJson(newWork), HttpStatus.OK);
     }
+
+    @GetMapping("/work/clock")
+    public ResponseEntity getWorkWithoutEndDate(Principal principal){
+        int userId = userRepo.findByUsername(principal.getName()).getId();
+
+        WorkDTO workWithout = workRepo.findWorkByUserWithoutEndDate(userId);
+        return new ResponseEntity(gson.toJson(workWithout), HttpStatus.OK);
+    }
+
+    @PostMapping("work/update")
+    public ResponseEntity updateWorkWithEndDate(@RequestBody Map<String, String> body){
+        int workId = Integer.parseInt(body.get("workId"));
+        workRepo.updateWork(workId, new Date());
+        return new ResponseEntity(workId, HttpStatus.OK);
+    }
+
+
 
     @GetMapping("/work/all")
     public ResponseEntity getWorkFromUser(){
