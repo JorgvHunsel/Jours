@@ -24,27 +24,27 @@ public class Work {
     private DAOUser user;
 
     @ManyToOne
-    private Project project;
+    private Task task;
 
-    public Work(int id, Date beginDate, Date endDate, DAOUser user, Project project) {
+    public Work(int id, Date beginDate, Date endDate, DAOUser user, Task task) {
         this.id = id;
         this.beginDate = beginDate;
         this.endDate = endDate;
         this.user = user;
-        this.project = project;
+        this.task = task;
     }
 
-    public Work(Date beginDate, Date endDate, DAOUser user, Project project) {
+    public Work(Date beginDate, Date endDate, DAOUser user, Task task) {
         this.beginDate = beginDate;
         this.endDate = endDate;
         this.user = user;
-        this.project = project;
+        this.task = task;
     }
 
-    public Work(Date beginDate, DAOUser user, Project project) {
+    public Work(Date beginDate, DAOUser user, Task task) {
         this.beginDate = beginDate;
         this.user = user;
-        this.project = project;
+        this.task = task;
     }
     public Work(){}
 
@@ -72,12 +72,12 @@ public class Work {
         this.endDate = endDate;
     }
 
-    public Project getProject() {
-        return project;
+    public Task getTask() {
+        return task;
     }
 
-    public void setProject(Project project) {
-        this.project = project;
+    public void setTask(Task task) {
+        this.task = task;
     }
 
     public DAOUser getUser() {

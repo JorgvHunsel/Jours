@@ -24,11 +24,7 @@ public class DAOUser {
     @ManyToMany(mappedBy = "users")
     List<Company> companies;
 
-    @ManyToMany
-            @JoinTable(
-                    name = "user_task",
-                    joinColumns = @JoinColumn(name = "userId"),
-                    inverseJoinColumns = @JoinColumn(name = "taskId"))
+    @ManyToMany(mappedBy = "userTasks")
     List<Task> tasks;
 
     @OneToMany(mappedBy = "user")

@@ -9,6 +9,7 @@ import server.dto.UserDTO;
 import server.dto.WorkDTO;
 import server.entity.DAOUser;
 import server.entity.Project;
+import server.entity.Task;
 import server.entity.Work;
 import server.repository.UserRepo;
 import server.repository.WorkRepo;
@@ -34,7 +35,7 @@ public class WorkEndpoint {
     @PostMapping("/work/add")
     public ResponseEntity createProject(@RequestBody Map<String, String> body, Principal principal){
         int userId = userRepo.findByUsername(principal.getName()).getId();
-        int projectId = Integer.parseInt(body.get("projectId"));
+        int taskId = Integer.parseInt(body.get("taskId"));
 
         Date beginDate = new Date();
         Date endDate = new Date();
@@ -52,7 +53,7 @@ public class WorkEndpoint {
             endDate = null;
         }
 
-        Work newWork = new Work(beginDate, endDate, new DAOUser(userId), new Project(projectId));
+        Work newWork = new Work(beginDate, endDate, new DAOUser(userId), new Task(taskId));
         workRepo.save(newWork);
 
         return new ResponseEntity(gson.toJson(newWork), HttpStatus.OK);

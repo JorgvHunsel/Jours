@@ -10,6 +10,7 @@ import java.util.List;
 @Data
 public class Task {
     @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "id")
     private int id;
 
@@ -25,8 +26,16 @@ public class Task {
     @ManyToOne
     private Project project;
 
-    @ManyToMany(mappedBy = "tasks")
+
+    @ManyToMany
+    @JoinTable(
+            name = "user_task",
+            joinColumns = @JoinColumn(name = "taskId"),
+            inverseJoinColumns = @JoinColumn(name = "userId"))
     List<DAOUser> userTasks;
+
+    @OneToMany
+    List<Work> workList;
 
     public Task(int id, String name, String description, String status, Project project, List<DAOUser> userTasks) {
         this.id = id;
@@ -35,6 +44,18 @@ public class Task {
         this.status = status;
         this.project = project;
         this.userTasks = userTasks;
+    }
+
+    public Task(String name, String description, String status, Project project, List<DAOUser> userTasks) {
+        this.name = name;
+        this.description = description;
+        this.status = status;
+        this.project = project;
+        this.userTasks = userTasks;
+    }
+
+    public Task(int id){
+        this.id = id;
     }
 
     public Task(){}

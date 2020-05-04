@@ -1,9 +1,12 @@
 package server.dto;
 
+import org.springframework.security.core.userdetails.User;
 import server.entity.Company;
 import server.entity.DAOUser;
+import server.entity.Task;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
 public class UserDTO {
@@ -14,24 +17,39 @@ public class UserDTO {
 
     private List<CompanyDTO> companies;
 
-    public UserDTO(int id, String username, String role){
+    private List<TaskDTO> tasks;
+
+    public UserDTO(Collection<Task> newTasks) {
+        tasks = new ArrayList<>();
+        for (Task task : newTasks) {
+            tasks.add(new TaskDTO(task));
+        }
+    }
+
+
+    public UserDTO(int id, String username, String role) {
         this.id = id;
         this.username = username;
         this.role = role;
     }
 
-    public UserDTO(DAOUser user){
+    public UserDTO(DAOUser user) {
         this.username = user.getUsername();
         this.password = user.getPassword();
 
+        tasks = new ArrayList<>();
+        for(Task task: user.getTasks()){
+            tasks.add(new TaskDTO(task));
+        }
+
         companies = new ArrayList<>();
-        for(Company comp: user.getCompanies()){
+        for (Company comp : user.getCompanies()) {
             String role = comp.getRoleFromUser(user.getId());
             companies.add(new CompanyDTO(comp, role));
         }
     }
 
-    public UserDTO(int userId){
+    public UserDTO(int userId) {
         this.id = userId;
     }
 
@@ -76,6 +94,14 @@ public class UserDTO {
 
     public void setCompanies(List<CompanyDTO> companies) {
         this.companies = companies;
+    }
+
+    public List<TaskDTO> getTasks() {
+        return tasks;
+    }
+
+    public void setTasks(List<TaskDTO> tasks) {
+        this.tasks = tasks;
     }
 
 
