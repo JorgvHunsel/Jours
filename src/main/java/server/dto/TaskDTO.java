@@ -1,9 +1,12 @@
 package server.dto;
 
+import server.entity.DAOUser;
 import server.entity.Task;
 
 import javax.persistence.Column;
 import javax.persistence.Id;
+import java.util.ArrayList;
+import java.util.List;
 
 public class TaskDTO {
 
@@ -11,6 +14,8 @@ public class TaskDTO {
     private String name;
     private String description;
     private String status;
+    private List<String> userNames;
+
 
     public TaskDTO(int id, String name, String description, String status) {
         this.id = id;
@@ -24,6 +29,11 @@ public class TaskDTO {
         this.name = task.getName();
         this.description = task.getDescription();
         this.status = task.getStatus();
+
+        userNames = new ArrayList<>();
+        for(DAOUser user: task.getUserTasks()){
+            userNames.add(user.getUsername());
+        }
     }
 
     public TaskDTO() {
