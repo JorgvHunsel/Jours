@@ -1,5 +1,7 @@
 package server.dto;
 
+import server.entity.Work;
+
 import javax.persistence.Column;
 import java.util.Date;
 
@@ -7,6 +9,12 @@ public class WorkDTO {
     private int id;
     private Date beginDate;
     private Date endDate;
+
+    public WorkDTO(Work work){
+        this.id = work.getId();
+        this.beginDate = work.getBeginDate();
+        this.endDate = work.getEndDate();
+    }
 
     public WorkDTO(int id, Date beginDate, Date endDate) {
         this.id = id;

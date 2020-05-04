@@ -24,8 +24,8 @@ public class Project {
     @ManyToOne
     private Company company;
 
-    @OneToMany
-    private List<Work> workList;
+    @OneToMany(mappedBy = "project")
+    private List<Task> tasks;
 
 
     public Project(String name, Date endDate, Company company) {
@@ -70,5 +70,13 @@ public class Project {
 
     public void setCompany(Company company) {
         this.company = company;
+    }
+
+    public List<Task> getTasks() {
+        return tasks;
+    }
+
+    public void setTasks(List<Task> tasks) {
+        this.tasks = tasks;
     }
 }

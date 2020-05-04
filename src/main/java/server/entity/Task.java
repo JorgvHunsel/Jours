@@ -26,6 +26,9 @@ public class Task {
     @ManyToOne
     private Project project;
 
+    @OneToMany(mappedBy = "task")
+    private List<Work> work;
+
 
     @ManyToMany
     @JoinTable(
@@ -33,9 +36,6 @@ public class Task {
             joinColumns = @JoinColumn(name = "taskId"),
             inverseJoinColumns = @JoinColumn(name = "userId"))
     List<DAOUser> userTasks;
-
-    @OneToMany
-    List<Work> workList;
 
     public Task(int id, String name, String description, String status, Project project, List<DAOUser> userTasks) {
         this.id = id;
@@ -107,5 +107,13 @@ public class Task {
 
     public void setUserTasks(List<DAOUser> userTasks) {
         this.userTasks = userTasks;
+    }
+
+    public List<Work> getWork() {
+        return work;
+    }
+
+    public void setWork(List<Work> work) {
+        this.work = work;
     }
 }

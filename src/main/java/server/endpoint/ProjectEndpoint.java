@@ -12,6 +12,7 @@ import server.entity.Project;
 import server.repository.CompanyRepo;
 import server.repository.ProjectRepo;
 
+import java.security.Principal;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -52,5 +53,12 @@ public class ProjectEndpoint {
     public ResponseEntity getProjects(@RequestParam int companyId){
         List<ProjectDTO> projectDTOS = projectRepo.findByCompanyId(companyId);
         return new ResponseEntity(gson.toJson(projectDTOS), HttpStatus.OK);
+    }
+
+    @GetMapping("project/tasks")
+    public ResponseEntity getTasksFromProject(@RequestParam int projectId){
+        ProjectDTO project = projectRepo.getProjectById(projectId);
+
+        return new ResponseEntity(gson.toJson(project), HttpStatus.OK);
     }
 }
