@@ -33,7 +33,6 @@ public class TaskEndpoint {
     public ResponseEntity createTask(@RequestBody Map<String, String> body, Principal principal){
         String name = body.get("name");
         String description = body.get("description");
-        String status = body.get("status");
         int projectId = Integer.parseInt(body.get("projectId"));
 
         List<DAOUser> usersFromTask = new ArrayList<>();
@@ -41,7 +40,7 @@ public class TaskEndpoint {
         usersFromTask.add(new DAOUser(userId));
 
 
-        Task newTask = new Task(name, description, status, new Project(projectId), usersFromTask);
+        Task newTask = new Task(name, description, "to do", new Project(projectId), usersFromTask);
         taskRepo.save(newTask);
         return new ResponseEntity(gson.toJson(newTask), HttpStatus.OK);
     }

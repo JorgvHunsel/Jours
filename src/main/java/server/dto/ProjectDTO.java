@@ -44,5 +44,51 @@ public class ProjectDTO {
         }
     }
 
+    public int getId() {
+        return id;
+    }
 
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public Date getEndDate() {
+        return endDate;
+    }
+
+    public void setEndDate(Date endDate) {
+        this.endDate = endDate;
+    }
+
+    public String getCurrentUserRole() {
+        return currentUserRole;
+    }
+
+    public void setCurrentUserRole(String currentUserRole) {
+        this.currentUserRole = currentUserRole;
+    }
+
+    public List<TaskDTO> getTasks() {
+        return tasks;
+    }
+
+    public void setTasks(List<TaskDTO> tasks) {
+        this.tasks = tasks;
+    }
+
+    public List<WorkDTO> getWorkList() {
+        return workList;
+    }
+
+    public void setWorkList(List<WorkDTO> workList) {
+        this.workList = workList;
+    }
 }

@@ -5,12 +5,15 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import server.dto.TaskDTO;
 import server.dto.UserDTO;
 import server.entity.DAOUser;
 import server.repository.UserRepo;
 import server.service.JwtUserDetailsService;
 
 import java.security.Principal;
+import java.util.List;
+import java.util.stream.Collectors;
 
 @RestController
 public class UserEndpoint {
@@ -41,7 +44,9 @@ public class UserEndpoint {
     public ResponseEntity getTasksFromUser(Principal principal){
         int userId = userRepository.findByUsername(principal.getName()).getId();
         UserDTO userWithTasks = userRepository.getUser(userId);
-        return new ResponseEntity(gson.toJson(userWithTasks.getTasks()), HttpStatus.OK);
+
+        List<TaskDTO> filteredTasks = userWithTasks.getTasks().stream().filter(taskDTO -> !taskDTO.getStatus().equals("hidden")).collect(Collectors.toList());
+        return new ResponseEntity(gson.toJson(filteredTasks), HttpStatus.OK);
     }
 
 

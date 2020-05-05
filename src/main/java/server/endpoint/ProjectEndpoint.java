@@ -7,6 +7,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import server.dto.CompanyDTO;
 import server.dto.ProjectDTO;
+import server.dto.TaskDTO;
 import server.entity.Company;
 import server.entity.Project;
 import server.repository.CompanyRepo;
@@ -19,6 +20,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.Map;
 import java.util.TimeZone;
+import java.util.stream.Collectors;
 
 @RestController
 public class ProjectEndpoint {
@@ -58,6 +60,8 @@ public class ProjectEndpoint {
     @GetMapping("/project")
     public ResponseEntity getProject(@RequestParam int projectId){
         ProjectDTO project = projectRepo.getProjectById(projectId);
+        List<TaskDTO> filteredTasks = project.getTasks().stream().filter(taskDTO -> !taskDTO.getStatus().equals("hidden")).collect(Collectors.toList());
+        project.setTasks(filteredTasks);
 
         return new ResponseEntity(gson.toJson(project), HttpStatus.OK);
     }
