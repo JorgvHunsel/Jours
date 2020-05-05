@@ -10,12 +10,14 @@ public class WorkDTO {
     private Date beginDate;
     private Date endDate;
     private String username;
+    private String taskName;
 
     public WorkDTO(Work work){
         this.id = work.getId();
         this.beginDate = work.getBeginDate();
         this.endDate = work.getEndDate();
         this.username = work.getUser().getUsername();
+        this.taskName = work.getTask().getName();
     }
 
     public WorkDTO(int id, Date beginDate, Date endDate) {

@@ -55,8 +55,8 @@ public class ProjectEndpoint {
         return new ResponseEntity(gson.toJson(projectDTOS), HttpStatus.OK);
     }
 
-    @GetMapping("project/tasks")
-    public ResponseEntity getTasksFromProject(@RequestParam int projectId){
+    @GetMapping("/project")
+    public ResponseEntity getProject(@RequestParam int projectId){
         ProjectDTO project = projectRepo.getProjectById(projectId);
 
         return new ResponseEntity(gson.toJson(project), HttpStatus.OK);
