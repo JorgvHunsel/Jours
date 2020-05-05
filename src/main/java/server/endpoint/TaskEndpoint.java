@@ -45,4 +45,40 @@ public class TaskEndpoint {
         taskRepo.save(newTask);
         return new ResponseEntity(gson.toJson(newTask), HttpStatus.OK);
     }
+
+    @PostMapping("/task/status")
+    public ResponseEntity changeTaskStatus(@RequestBody Map<String, String> body){
+        int taskId = Integer.parseInt(body.get("taskId"));
+        String currentStatus = body.get("status");
+        boolean direction = Boolean.parseBoolean(body.get("direction"));
+
+        String newStatus;
+        switch(currentStatus){
+            case "to do":
+                newStatus = "doing";
+                break;
+            case "doing":
+                if(direction){
+                    newStatus = "done";
+                }
+                else{
+                    newStatus = "to do";
+                }
+                break;
+            case "done":
+                if(direction){
+                    newStatus = "hidden";
+                }
+                else{
+                    newStatus = "doing";
+                }
+                break;
+            default:
+                newStatus = "error";
+                break;
+        }
+        taskRepo.updateTaskStatus(taskId, newStatus);
+
+        return new ResponseEntity(newStatus, HttpStatus.OK);
+    }
 }
