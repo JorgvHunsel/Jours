@@ -1,6 +1,7 @@
 package server.endpoint;
 
 import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -34,11 +35,7 @@ public class TaskEndpoint {
         String name = body.get("name");
         String description = body.get("description");
         int projectId = Integer.parseInt(body.get("projectId"));
-
-        List<DAOUser> usersFromTask = new ArrayList<>();
-        int userId = userRepository.findByUsername(principal.getName()).getId();
-        usersFromTask.add(new DAOUser(userId));
-
+        List<DAOUser> usersFromTask = gson.fromJson(body.get("users"), new TypeToken<List<DAOUser>>(){}.getType());
 
         Task newTask = new Task(name, description, "to do", new Project(projectId), usersFromTask);
         taskRepo.save(newTask);
