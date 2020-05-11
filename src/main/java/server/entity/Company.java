@@ -18,6 +18,9 @@ public class Company {
     @Column(name = "name")
     private String name;
 
+    @Column(name = "code")
+    private int code;
+
     @ManyToMany
             @JoinTable(
                     name = "company_user",
@@ -31,9 +34,10 @@ public class Company {
 
 
 
-    public Company(String name, List<DAOUser> users){
+    public Company(String name, List<DAOUser> users, int code){
         this.name = name;
         this.users = users;
+        this.code = code;
     }
 
     public Company(int id){
@@ -86,5 +90,13 @@ public class Company {
 
     public void setRoles(List<CompanyUser> roles) {
         this.roles = roles;
+    }
+
+    public int getCode() {
+        return code;
+    }
+
+    public void setCode(int code) {
+        this.code = code;
     }
 }

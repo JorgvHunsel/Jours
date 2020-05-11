@@ -1,6 +1,7 @@
 package server.endpoint;
 
 import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 import io.jsonwebtoken.Claims;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -15,6 +16,7 @@ import server.entity.DAOUser;
 import server.repository.CompanyRepo;
 import server.repository.CompanyUserRepo;
 import server.repository.UserRepo;
+import server.service.CodeGenerator;
 
 import java.security.Principal;
 import java.util.ArrayList;
@@ -46,12 +48,24 @@ public class CompanyEndpoint {
         List<DAOUser> usersInCompany = new ArrayList<>();
         usersInCompany.add(user);
 
-        Company newCompany = new Company(companyName, usersInCompany);
+        int code = Integer.parseInt(CodeGenerator.getRandomNumberString());
+
+        Company newCompany = new Company(companyName, usersInCompany, code);
 
         int companyId = companyRepo.save(newCompany).getId();
         companyUserRepo.setRole("admin", companyId, userId);
 
         return new ResponseEntity<>(gson.toJson(newCompany), HttpStatus.OK);
+    }
+
+    @PutMapping("/company/edit")
+    public ResponseEntity<String> editCompany(@RequestBody Map<String, String> body) {
+        int companyId = Integer.parseInt(body.get("companyId"));
+        String companyName = body.get("companyName");
+
+        companyRepo.updateCompany(companyName, companyId);
+
+        return new ResponseEntity<>(gson.toJson(companyId), HttpStatus.OK);
     }
 
     @GetMapping("/company/users")
@@ -60,5 +74,14 @@ public class CompanyEndpoint {
         company.setCurrentUserRole(userId);
 
         return new ResponseEntity<>(gson.toJson(company), HttpStatus.OK);
+    }
+
+    @GetMapping("/company/code")
+    public ResponseEntity<String> getNewCode(@RequestParam int companyId) {
+
+        int newCode = Integer.parseInt(CodeGenerator.getRandomNumberString());
+        companyRepo.setCompanyCode(companyId, newCode);
+
+        return new ResponseEntity<>(gson.toJson(newCode), HttpStatus.OK);
     }
 }

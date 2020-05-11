@@ -12,6 +12,7 @@ public class CompanyDTO {
     private int id;
 
     private String name;
+    private int code;
 
     private List<UserDTO> usersInCompany;
 
@@ -24,6 +25,7 @@ public class CompanyDTO {
     public CompanyDTO(Company company){
         this.id = company.getId();
         this.name = company.getName();
+        this.code = company.getCode();
 
         setRoles(company);
         setUsers(company);
