@@ -12,7 +12,7 @@ public class CompanyDTO {
     private int id;
 
     private String name;
-    private int code;
+    private String code;
 
     private List<UserDTO> usersInCompany;
 

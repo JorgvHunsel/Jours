@@ -17,6 +17,9 @@ public interface CompanyRepo extends JpaRepository<Company, Integer>{
     @Query("SELECT new server.dto.CompanyDTO(c.id, c.name) FROM Company c WHERE c.id = ?1")
     CompanyDTO findCompanyById(int id);
 
+    @Query("SELECT new server.dto.CompanyDTO(c) FROM Company c WHERE c.code = ?1")
+    CompanyDTO findCompanyByCode(String code);
+
     @Query("select new server.dto.CompanyDTO(c) from Company c where c.id = ?1")
     CompanyDTO findUsersFromCompany(int companyId);
 
@@ -28,7 +31,11 @@ public interface CompanyRepo extends JpaRepository<Company, Integer>{
     @Transactional
     @Modifying
     @Query("UPDATE Company c SET c.code = :code WHERE c.id = :id")
-    int setCompanyCode(@Param("id") int companyId, @Param("code") int code);
+    int setCompanyCode(@Param("id") int companyId, @Param("code") String code);
+
+
+
+
 
 
 }

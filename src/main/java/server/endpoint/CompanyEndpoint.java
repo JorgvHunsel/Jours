@@ -48,11 +48,12 @@ public class CompanyEndpoint {
         List<DAOUser> usersInCompany = new ArrayList<>();
         usersInCompany.add(user);
 
-        int code = Integer.parseInt(CodeGenerator.getRandomNumberString());
+        String code = CodeGenerator.getRandomNumberString();
 
         Company newCompany = new Company(companyName, usersInCompany, code);
 
         int companyId = companyRepo.save(newCompany).getId();
+
         companyUserRepo.setRole("admin", companyId, userId);
 
         return new ResponseEntity<>(gson.toJson(newCompany), HttpStatus.OK);
@@ -79,9 +80,20 @@ public class CompanyEndpoint {
     @GetMapping("/company/code")
     public ResponseEntity<String> getNewCode(@RequestParam int companyId) {
 
-        int newCode = Integer.parseInt(CodeGenerator.getRandomNumberString());
+        String newCode = CodeGenerator.getRandomNumberString();
         companyRepo.setCompanyCode(companyId, newCode);
 
         return new ResponseEntity<>(gson.toJson(newCode), HttpStatus.OK);
+    }
+
+    @PutMapping("/company/join")
+    public ResponseEntity<String> joinCompany(@RequestBody Map<String, String> body, Principal principal) {
+        int userId = userRepo.findByUsername(principal.getName()).getId();
+        String code = body.get("code");
+        CompanyDTO currentCompany = companyRepo.findCompanyByCode(code);
+
+        companyUserRepo.addUserToCompany(currentCompany.getId(), userId, "employee");
+        
+        return new ResponseEntity<>(gson.toJson(currentCompany), HttpStatus.OK);
     }
 }
