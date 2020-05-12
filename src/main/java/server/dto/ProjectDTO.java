@@ -13,6 +13,7 @@ public class ProjectDTO {
     private int id;
     private String name;
     private Date endDate;
+    private int companyId;
 
     private String currentUserRole;
 
@@ -25,6 +26,7 @@ public class ProjectDTO {
         this.endDate = endDate;
     }
 
+
     public ProjectDTO(Task task){
         workList = new ArrayList<>();
 
@@ -34,6 +36,8 @@ public class ProjectDTO {
     }
 
     public ProjectDTO(Project project){
+        this.name = project.getName();
+        this.endDate = project.getEndDate();
         workList = new ArrayList<>();
         tasks = new ArrayList<>();
         for(Task task: project.getTasks()){
@@ -90,5 +94,13 @@ public class ProjectDTO {
 
     public void setWorkList(List<WorkDTO> workList) {
         this.workList = workList;
+    }
+
+    public int getCompanyId() {
+        return companyId;
+    }
+
+    public void setCompanyId(int companyId) {
+        this.companyId = companyId;
     }
 }

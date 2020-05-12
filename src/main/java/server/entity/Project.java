@@ -1,6 +1,7 @@
 package server.entity;
 
 import lombok.Data;
+import server.dto.ProjectDTO;
 
 import javax.persistence.*;
 import java.util.Date;
@@ -32,6 +33,20 @@ public class Project {
         this.name = name;
         this.endDate = endDate;
         this.company = company;
+    }
+
+    public Project(int id, String name, Date endDate, int companyId){
+        this.id = id;
+        this.name = name;
+        this.endDate = endDate;
+        this.company = new Company(companyId);
+    }
+
+    public Project(ProjectDTO project){
+        this.id = project.getId();
+        this.name = project.getName();
+        this.endDate = project.getEndDate();
+        this.company = new Company(project.getCompanyId());
     }
 
     public Project(int projectId){

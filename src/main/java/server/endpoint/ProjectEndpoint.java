@@ -65,4 +65,23 @@ public class ProjectEndpoint {
 
         return new ResponseEntity(gson.toJson(project), HttpStatus.OK);
     }
+
+    @PutMapping("/project")
+    public ResponseEntity updateProject(@RequestBody Map<String, String> body) throws ParseException {
+        String projectName = body.get("projectName");
+        String endDate = body.get("endDate");
+        int companyId = Integer.parseInt(body.get("companyId"));
+
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'");
+        sdf.setTimeZone(TimeZone.getTimeZone("UTC"));
+        Date date = sdf.parse(endDate);
+
+        CompanyDTO company = companyRepo.findCompanyById(companyId);
+
+        Project updatedProject = new Project(projectName, date, new Company(company));
+        updatedProject.setId(Integer.parseInt(body.get("projectId")));
+        projectRepo.save(updatedProject);
+
+        return new ResponseEntity<>(gson.toJson(updatedProject), HttpStatus.OK);
+    }
 }

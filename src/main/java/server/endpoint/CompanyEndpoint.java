@@ -93,7 +93,7 @@ public class CompanyEndpoint {
         CompanyDTO currentCompany = companyRepo.findCompanyByCode(code);
 
         companyUserRepo.addUserToCompany(currentCompany.getId(), userId, "employee");
-        
+
         return new ResponseEntity<>(gson.toJson(currentCompany), HttpStatus.OK);
     }
 }
