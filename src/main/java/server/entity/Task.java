@@ -58,6 +58,11 @@ public class Task {
         this.id = id;
     }
 
+    public Task(int id, String status){
+        this.id = id;
+        this.status = status;
+    }
+
     public Task(){}
 
 

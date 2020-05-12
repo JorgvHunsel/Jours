@@ -10,16 +10,15 @@ import server.dto.ProjectDTO;
 import server.dto.TaskDTO;
 import server.entity.Company;
 import server.entity.Project;
+import server.entity.Task;
 import server.repository.CompanyRepo;
 import server.repository.ProjectRepo;
+import server.repository.TaskRepo;
 
 import java.security.Principal;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.List;
-import java.util.Map;
-import java.util.TimeZone;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @RestController
@@ -30,6 +29,9 @@ public class ProjectEndpoint {
 
     @Autowired
     CompanyRepo companyRepo;
+
+    @Autowired
+    TaskRepo taskRepo;
 
     Gson gson = new Gson();
 
@@ -45,7 +47,7 @@ public class ProjectEndpoint {
 
         CompanyDTO company = companyRepo.findCompanyById(companyId);
 
-        Project newProject = new Project(projectName, date, new Company(company));
+        Project newProject = new Project(projectName, date, new Company(company), true);
         projectRepo.save(newProject);
 
         return new ResponseEntity<>(gson.toJson(newProject), HttpStatus.OK);
@@ -54,7 +56,9 @@ public class ProjectEndpoint {
     @GetMapping("/project/all")
     public ResponseEntity getProjects(@RequestParam int companyId){
         List<ProjectDTO> projectDTOS = projectRepo.findByCompanyId(companyId);
-        return new ResponseEntity(gson.toJson(projectDTOS), HttpStatus.OK);
+        List<ProjectDTO> filteredProjects = projectDTOS.stream().filter(projectDTO -> projectDTO.isActive()).collect(Collectors.toList());
+
+        return new ResponseEntity(gson.toJson(filteredProjects), HttpStatus.OK);
     }
 
     @GetMapping("/project")
@@ -78,10 +82,25 @@ public class ProjectEndpoint {
 
         CompanyDTO company = companyRepo.findCompanyById(companyId);
 
-        Project updatedProject = new Project(projectName, date, new Company(company));
+        Project updatedProject = new Project(projectName, date, new Company(company), true);
         updatedProject.setId(Integer.parseInt(body.get("projectId")));
         projectRepo.save(updatedProject);
 
         return new ResponseEntity<>(gson.toJson(updatedProject), HttpStatus.OK);
+    }
+
+    @PutMapping("/project/disable")
+    public ResponseEntity disableProject(@RequestBody Map<String, String> body) {
+
+        ProjectDTO projectDTO = projectRepo.getProjectById(Integer.parseInt(body.get("projectId")));
+
+
+        Project projectToDisable = new Project(projectDTO.getName(), projectDTO.getEndDate(), new Company(projectDTO.getCompanyId()), false);
+        projectToDisable.setId(Integer.parseInt(body.get("projectId")));
+        projectRepo.save(projectToDisable);
+
+        taskRepo.disableTask(Integer.parseInt(body.get("projectId")), "hidden");
+
+        return new ResponseEntity<>(gson.toJson(projectToDisable), HttpStatus.OK);
     }
 }

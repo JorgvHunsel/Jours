@@ -14,16 +14,18 @@ public class ProjectDTO {
     private String name;
     private Date endDate;
     private int companyId;
+    private boolean active;
 
     private String currentUserRole;
 
     private List<TaskDTO> tasks;
     private List<WorkDTO> workList;
 
-    public ProjectDTO(int id, String name, Date endDate) {
+    public ProjectDTO(int id, String name, Date endDate, boolean active) {
         this.id = id;
         this.name = name;
         this.endDate = endDate;
+        this.active = active;
     }
 
 
@@ -36,6 +38,7 @@ public class ProjectDTO {
     }
 
     public ProjectDTO(Project project){
+       this.companyId = project.getCompany().getId();
         this.name = project.getName();
         this.endDate = project.getEndDate();
         workList = new ArrayList<>();
@@ -102,5 +105,13 @@ public class ProjectDTO {
 
     public void setCompanyId(int companyId) {
         this.companyId = companyId;
+    }
+
+    public boolean isActive() {
+        return active;
+    }
+
+    public void setActive(boolean active) {
+        this.active = active;
     }
 }

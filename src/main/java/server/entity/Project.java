@@ -22,6 +22,9 @@ public class Project {
     @Column(name = "endDate")
     private Date endDate;
 
+    @Column(name = "active")
+    private Boolean active;
+
     @ManyToOne
     private Company company;
 
@@ -29,10 +32,13 @@ public class Project {
     private List<Task> tasks;
 
 
-    public Project(String name, Date endDate, Company company) {
+
+
+    public Project(String name, Date endDate, Company company, boolean active) {
         this.name = name;
         this.endDate = endDate;
         this.company = company;
+        this.active = active;
     }
 
     public Project(int id, String name, Date endDate, int companyId){
