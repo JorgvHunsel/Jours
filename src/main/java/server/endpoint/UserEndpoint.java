@@ -9,7 +9,6 @@ import server.dto.TaskDTO;
 import server.dto.UserDTO;
 import server.entity.DAOUser;
 import server.repository.UserRepo;
-import server.service.JwtUserDetailsService;
 
 import java.security.Principal;
 import java.util.List;
@@ -20,15 +19,12 @@ public class UserEndpoint {
     @Autowired
     UserRepo userRepository;
 
-    @Autowired
-    private JwtUserDetailsService userDetailsService;
-
     Gson gson = new Gson();
 
-    @GetMapping("/company/all")
-    public ResponseEntity getCompaniesFromUser(@RequestParam int userId){
+    @GetMapping("/user/company")
+    public ResponseEntity<String> getCompaniesFromUser(@RequestParam int userId){
         UserDTO user = userRepository.getUser(userId);
-        return new ResponseEntity(gson.toJson(user.getCompanies()), HttpStatus.OK);
+        return new ResponseEntity<>(gson.toJson(user.getCompanies()), HttpStatus.OK);
     }
 
     @RequestMapping(value = "/username", method = RequestMethod.GET)
@@ -39,18 +35,18 @@ public class UserEndpoint {
     }
 
     @GetMapping("/user/tasks")
-    public ResponseEntity getTasksFromUser(Principal principal){
+    public ResponseEntity<String> getTasksFromUser(Principal principal){
         int userId = userRepository.findByUsername(principal.getName()).getId();
         UserDTO userWithTasks = userRepository.getUser(userId);
 
         List<TaskDTO> filteredTasks = userWithTasks.getTasks().stream().filter(taskDTO -> !taskDTO.getStatus().equals("hidden")).collect(Collectors.toList());
-        return new ResponseEntity(gson.toJson(filteredTasks), HttpStatus.OK);
+        return new ResponseEntity<>(gson.toJson(filteredTasks), HttpStatus.OK);
     }
 
     @GetMapping("/user")
-    public ResponseEntity getUser(@RequestParam int userId){
+    public ResponseEntity<String> getUser(@RequestParam int userId){
         UserDTO user = userRepository.getUser(userId);
-        return new ResponseEntity(gson.toJson(user), HttpStatus.OK);
+        return new ResponseEntity<>(gson.toJson(user), HttpStatus.OK);
     }
 
 

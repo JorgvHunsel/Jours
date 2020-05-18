@@ -13,6 +13,7 @@ import server.dto.CompanyDTO;
 import server.dto.UserDTO;
 import server.entity.Company;
 import server.entity.DAOUser;
+import server.logic.CompanyLogic;
 import server.repository.CompanyRepo;
 import server.repository.CompanyUserRepo;
 import server.repository.UserRepo;
@@ -35,25 +36,18 @@ public class CompanyEndpoint {
     @Autowired
     CompanyUserRepo companyUserRepo;
 
+    CompanyLogic companyLogic = new CompanyLogic();
+
     Gson gson = new Gson();
 
     @PostMapping("/company/create")
-    public ResponseEntity<String> createCompany(@RequestBody Map<String, String> body) {
+    public ResponseEntity<String> createCompany(@RequestBody Map<String, String> body, Principal principal) {
+        int userId = userRepo.findByUsername(principal.getName()).getId();
         String companyName = body.get("companyName");
-        int userId = Integer.parseInt(body.get("userId"));
 
-        UserDTO userDTO = userRepo.findById(userId);
-        DAOUser user = new DAOUser(userDTO.getId(), userDTO.getUsername(), userDTO.getPassword());
-
-        List<DAOUser> usersInCompany = new ArrayList<>();
-        usersInCompany.add(user);
-
-        String code = CodeGenerator.getRandomNumberString();
-
-        Company newCompany = new Company(companyName, usersInCompany, code);
+        Company newCompany = companyLogic.creatCompany(userId, companyName);
 
         int companyId = companyRepo.save(newCompany).getId();
-
         companyUserRepo.setRole("admin", companyId, userId);
 
         return new ResponseEntity<>(gson.toJson(newCompany), HttpStatus.OK);
@@ -63,14 +57,14 @@ public class CompanyEndpoint {
     public ResponseEntity<String> editCompany(@RequestBody Map<String, String> body) {
         int companyId = Integer.parseInt(body.get("companyId"));
         String companyName = body.get("companyName");
-
         companyRepo.updateCompany(companyName, companyId);
 
         return new ResponseEntity<>(gson.toJson(companyId), HttpStatus.OK);
     }
 
-    @GetMapping("/company/users")
-    public ResponseEntity<String> getCompanyWithUsers(@RequestParam int companyId, @RequestHeader("UserId") int userId) {
+    @GetMapping("/company")
+    public ResponseEntity<String> getCompany(@RequestParam int companyId, Principal principal) {
+        int userId = userRepo.findByUsername(principal.getName()).getId();
         CompanyDTO company = companyRepo.findUsersFromCompany(companyId);
         company.setCurrentUserRole(userId);
 
@@ -79,7 +73,6 @@ public class CompanyEndpoint {
 
     @GetMapping("/company/code")
     public ResponseEntity<String> getNewCode(@RequestParam int companyId) {
-
         String newCode = CodeGenerator.getRandomNumberString();
         companyRepo.setCompanyCode(companyId, newCode);
 
@@ -90,8 +83,8 @@ public class CompanyEndpoint {
     public ResponseEntity<String> joinCompany(@RequestBody Map<String, String> body, Principal principal) {
         int userId = userRepo.findByUsername(principal.getName()).getId();
         String code = body.get("code");
-        CompanyDTO currentCompany = companyRepo.findCompanyByCode(code);
 
+        CompanyDTO currentCompany = companyRepo.findCompanyByCode(code);
         companyUserRepo.addUserToCompany(currentCompany.getId(), userId, "employee");
 
         return new ResponseEntity<>(gson.toJson(currentCompany), HttpStatus.OK);

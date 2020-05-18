@@ -38,10 +38,6 @@ public class JwtAuthenticationController {
     @Autowired
     UserRepo userRepository;
 
-    Gson gson = new Gson();
-
-    UserEndpoint userEndpoint = new UserEndpoint();
-
     @RequestMapping(value = "/authenticate", method = RequestMethod.POST)
     public ResponseEntity<?> createAuthenticationToken(@RequestBody JwtRequest authenticationRequest) throws Exception {
         authenticate(authenticationRequest.getUsername(), authenticationRequest.getPassword());
@@ -49,7 +45,6 @@ public class JwtAuthenticationController {
                 .loadUserByUsername(authenticationRequest.getUsername());
 
         DAOUser currentUser = userRepository.findByUsername(authenticationRequest.getUsername());
-        //hier moet een userid in komen
         final String token = jwtTokenUtil.generateToken(userDetails, currentUser);
         return ResponseEntity.ok(new JwtResponse(token));
     }

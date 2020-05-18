@@ -3,6 +3,7 @@ package server.dto;
 import server.entity.Company;
 import server.entity.CompanyUser;
 import server.entity.DAOUser;
+import server.entity.Project;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -17,6 +18,8 @@ public class CompanyDTO {
     private List<UserDTO> usersInCompany;
 
     private List<CompanyUserDTO> roles;
+
+    private List<ProjectDTO> projects;
 
     private String currentUserRole;
 

@@ -10,12 +10,10 @@ import server.dto.ProjectDTO;
 import server.dto.TaskDTO;
 import server.entity.Company;
 import server.entity.Project;
-import server.entity.Task;
 import server.repository.CompanyRepo;
 import server.repository.ProjectRepo;
 import server.repository.TaskRepo;
 
-import java.security.Principal;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.*;
@@ -54,9 +52,9 @@ public class ProjectEndpoint {
     }
 
     @GetMapping("/project/all")
-    public ResponseEntity getProjects(@RequestParam int companyId){
-        List<ProjectDTO> projectDTOS = projectRepo.findByCompanyId(companyId);
-        List<ProjectDTO> filteredProjects = projectDTOS.stream().filter(projectDTO -> projectDTO.isActive()).collect(Collectors.toList());
+    public ResponseEntity getProjectsFromCompany(@RequestParam int companyId){
+        List<ProjectDTO> projectDTOS = projectRepo.getProjectByCompany(companyId);
+        List<ProjectDTO> filteredProjects = projectDTOS.stream().filter(ProjectDTO::isActive).collect(Collectors.toList());
 
         return new ResponseEntity(gson.toJson(filteredProjects), HttpStatus.OK);
     }
