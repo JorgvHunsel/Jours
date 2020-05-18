@@ -8,7 +8,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class CompanyLogic {
-    public Company creatCompany(int userId, String companyName){
+    public Company createCompany(int userId, String companyName){
         List<DAOUser> usersInCompany = new ArrayList<>();
         usersInCompany.add(new DAOUser(userId));
 

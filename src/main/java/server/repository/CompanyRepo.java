@@ -8,9 +8,6 @@ import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 import server.dto.CompanyDTO;
 import server.entity.Company;
-import server.entity.DAOUser;
-
-import java.util.List;
 
 @Repository
 public interface CompanyRepo extends JpaRepository<Company, Integer>{

@@ -48,6 +48,4 @@ public class UserEndpoint {
         UserDTO user = userRepository.getUser(userId);
         return new ResponseEntity<>(gson.toJson(user), HttpStatus.OK);
     }
-
-
 }

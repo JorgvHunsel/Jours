@@ -1,18 +1,12 @@
 package server.endpoint;
 
 import com.google.gson.Gson;
-import com.google.gson.reflect.TypeToken;
-import io.jsonwebtoken.Claims;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
-import server.config.JwtTokenUtil;
 import server.dto.CompanyDTO;
-import server.dto.UserDTO;
 import server.entity.Company;
-import server.entity.DAOUser;
 import server.logic.CompanyLogic;
 import server.repository.CompanyRepo;
 import server.repository.CompanyUserRepo;
@@ -20,8 +14,6 @@ import server.repository.UserRepo;
 import server.service.CodeGenerator;
 
 import java.security.Principal;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Map;
 
 @RestController
@@ -45,7 +37,7 @@ public class CompanyEndpoint {
         int userId = userRepo.findByUsername(principal.getName()).getId();
         String companyName = body.get("companyName");
 
-        Company newCompany = companyLogic.creatCompany(userId, companyName);
+        Company newCompany = companyLogic.createCompany(userId, companyName);
 
         int companyId = companyRepo.save(newCompany).getId();
         companyUserRepo.setRole("admin", companyId, userId);
