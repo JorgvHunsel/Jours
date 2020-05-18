@@ -6,6 +6,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 import server.dto.CompanyDTO;
+import server.dto.UserDTO;
 import server.dto.WorkDTO;
 import server.entity.Work;
 
@@ -21,4 +22,7 @@ public interface WorkRepo extends JpaRepository<Work, Integer> {
     @Modifying
     @Query("UPDATE Work w set w.endDate = ?2 WHERE w.id = ?1")
     void updateWork(int id, Date endDate);
+
+
+
 }

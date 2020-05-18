@@ -4,6 +4,7 @@ import org.springframework.security.core.userdetails.User;
 import server.entity.Company;
 import server.entity.DAOUser;
 import server.entity.Task;
+import server.entity.Work;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -18,6 +19,8 @@ public class UserDTO {
     private List<CompanyDTO> companies;
 
     private List<TaskDTO> tasks;
+
+    private List<WorkDTO> workList;
 
     public UserDTO(Collection<Task> newTasks) {
         tasks = new ArrayList<>();
@@ -40,6 +43,11 @@ public class UserDTO {
         tasks = new ArrayList<>();
         for(Task task: user.getTasks()){
             tasks.add(new TaskDTO(task));
+        }
+
+        workList = new ArrayList<>();
+        for(Work work: user.getWorkList()){
+            workList.add(new WorkDTO(work));
         }
 
         companies = new ArrayList<>();
@@ -104,6 +112,12 @@ public class UserDTO {
         this.tasks = tasks;
     }
 
+    public List<WorkDTO> getWorkList() {
+        return workList;
+    }
 
+    public void setWorkList(List<WorkDTO> workList) {
+        this.workList = workList;
+    }
 }
 

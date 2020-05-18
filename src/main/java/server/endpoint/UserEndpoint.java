@@ -20,8 +20,6 @@ public class UserEndpoint {
     @Autowired
     UserRepo userRepository;
 
-
-
     @Autowired
     private JwtUserDetailsService userDetailsService;
 
@@ -47,6 +45,12 @@ public class UserEndpoint {
 
         List<TaskDTO> filteredTasks = userWithTasks.getTasks().stream().filter(taskDTO -> !taskDTO.getStatus().equals("hidden")).collect(Collectors.toList());
         return new ResponseEntity(gson.toJson(filteredTasks), HttpStatus.OK);
+    }
+
+    @GetMapping("/user")
+    public ResponseEntity getUser(@RequestParam int userId){
+        UserDTO user = userRepository.getUser(userId);
+        return new ResponseEntity(gson.toJson(user), HttpStatus.OK);
     }
 
 

@@ -28,6 +28,9 @@ public class DAOUser {
     List<Task> tasks;
 
     @OneToMany(mappedBy = "user")
+    List<Work> workList;
+
+    @OneToMany(mappedBy = "user")
     List<CompanyUser> roles;
 
     public DAOUser(int id, String username, String password, List<Company> companies, List<Task> tasks) {
@@ -96,5 +99,13 @@ public class DAOUser {
 
     public void setRoles(List<CompanyUser> roles) {
         this.roles = roles;
+    }
+
+    public List<Work> getWorkList() {
+        return workList;
+    }
+
+    public void setWorkList(List<Work> workList) {
+        this.workList = workList;
     }
 }
