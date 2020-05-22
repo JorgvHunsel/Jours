@@ -16,13 +16,19 @@ import server.logic.TaskLogic;
 import server.repository.TaskRepo;
 import server.repository.UserRepo;
 
-import java.security.Principal;
 import java.util.List;
 import java.util.Map;
 
 @RequestMapping(value="/task")
 @RestController
 public class TaskEndpoint {
+
+    TaskLogic taskLogic;
+
+    @Autowired
+    public TaskEndpoint(TaskLogic taskLogic){
+        this.taskLogic = taskLogic;
+    }
 
     @Autowired
     TaskRepo taskRepo;
@@ -31,7 +37,6 @@ public class TaskEndpoint {
 
     Gson gson = new Gson();
 
-    TaskLogic taskLogic = new TaskLogic();
 
     @PostMapping("/create")
     public ResponseEntity<String> createTask(@RequestBody Map<String, String> body){

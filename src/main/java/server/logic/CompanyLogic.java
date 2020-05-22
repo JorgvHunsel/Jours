@@ -52,6 +52,10 @@ public class CompanyLogic {
         return company;
     }
 
+    public CompanyDTO findCompanyById(int companyId){
+            return companyService.findCompanyById(companyId);
+    }
+
     public String getNewCode(int companyId) {
         String newCode = CodeGenerator.getRandomNumberString();
         companyService.setCompanyCode(companyId, newCode);

@@ -9,10 +9,6 @@ import server.dto.CompanyDTO;
 import server.entity.Company;
 import server.logic.CompanyLogic;
 import server.logic.UserLogic;
-import server.repository.CompanyRepo;
-import server.repository.CompanyUserRepo;
-import server.repository.UserRepo;
-import server.service.CodeGenerator;
 
 import java.security.Principal;
 import java.util.Map;
@@ -32,20 +28,23 @@ public class CompanyController {
     Gson gson = new Gson();
 
     @PostMapping("/create")
-    public ResponseEntity createCompany(@RequestBody Map<String, String> body, Principal principal) {
+    public ResponseEntity<String> createCompany(@RequestBody Map<String, String> body, Principal principal) {
         int userId = userLogic.findByUsername(principal.getName()).getId();
         String companyName = body.get("companyName");
-        Company newCompany = companyLogic.createCompany(userId, companyName);
 
-        if(newCompany != null){
-            return ResponseEntity.ok(newCompany);
+        Company newCompany;
+        try {
+            newCompany = companyLogic.createCompany(userId, companyName);
+        }
+        catch(Exception e){
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
 
-        return new ResponseEntity(HttpStatus.BAD_REQUEST);
+        return new ResponseEntity<>(gson.toJson(newCompany), HttpStatus.OK);
     }
 
     @PutMapping("/edit")
-    public ResponseEntity editCompany(@RequestBody Map<String, String> body) {
+    public ResponseEntity<String> editCompany(@RequestBody Map<String, String> body) {
         int companyId = Integer.parseInt(body.get("companyId"));
         String companyName = body.get("companyName");
 
@@ -53,14 +52,14 @@ public class CompanyController {
             companyLogic.updateCompany(companyName, companyId);
         }
         catch (Exception e){
-            return new ResponseEntity(HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
 
         return new ResponseEntity<>(gson.toJson(companyId), HttpStatus.OK);
     }
 
     @GetMapping
-    public ResponseEntity getCompany(@RequestParam int companyId, Principal principal) {
+    public ResponseEntity<String> getCompany(@RequestParam int companyId, Principal principal) {
         int userId = userLogic.findByUsername(principal.getName()).getId();
 
        CompanyDTO companyDTO;
@@ -68,7 +67,7 @@ public class CompanyController {
             companyDTO = companyLogic.getCompany(userId, companyId);
         }
         catch(Exception e){
-            return new ResponseEntity(HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
 
         return new ResponseEntity<>(gson.toJson(companyDTO), HttpStatus.OK);
@@ -81,7 +80,7 @@ public class CompanyController {
             newCode = companyLogic.getNewCode(companyId);
         }
         catch (Exception e){
-            return new ResponseEntity(HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
 
         return new ResponseEntity<>(gson.toJson(newCode), HttpStatus.OK);
@@ -97,7 +96,7 @@ public class CompanyController {
             companyDTO = companyLogic.joinCompany(userId, code);
         }
         catch (Exception e){
-            return new ResponseEntity(HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
 
         return new ResponseEntity<>(gson.toJson(companyDTO), HttpStatus.OK);
