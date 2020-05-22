@@ -11,6 +11,5 @@ public interface UserRepo extends JpaRepository<DAOUser, Integer> {
     DAOUser findByUsername(String username);
 
     @Query("SELECT new server.dto.UserDTO(u) FROM DAOUser u WHERE u.id = ?1")
-    UserDTO getUser(int id);
-
+    UserDTO getUser(int userId);
 }

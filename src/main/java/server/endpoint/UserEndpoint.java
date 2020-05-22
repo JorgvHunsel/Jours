@@ -14,6 +14,7 @@ import java.security.Principal;
 import java.util.List;
 import java.util.stream.Collectors;
 
+@RequestMapping(value = "/user")
 @RestController
 public class UserEndpoint {
     @Autowired
@@ -21,20 +22,21 @@ public class UserEndpoint {
 
     Gson gson = new Gson();
 
-    @GetMapping("/user/company")
-    public ResponseEntity<String> getCompaniesFromUser(@RequestParam int userId){
+    @GetMapping
+    public ResponseEntity<String> getUser(Principal principal){
+        int userId = userRepository.findByUsername(principal.getName()).getId();
+        UserDTO user = userRepository.getUser(userId);
+        return new ResponseEntity<>(gson.toJson(user), HttpStatus.OK);
+    }
+
+    @GetMapping("/company")
+    public ResponseEntity<String> getCompaniesFromUser(Principal principal){
+        int userId = userRepository.findByUsername(principal.getName()).getId();
         UserDTO user = userRepository.getUser(userId);
         return new ResponseEntity<>(gson.toJson(user.getCompanies()), HttpStatus.OK);
     }
 
-    @RequestMapping(value = "/username", method = RequestMethod.GET)
-    @ResponseBody
-    public int currentUserName(Principal principal) {
-        DAOUser user = userRepository.findByUsername(principal.getName());
-        return user.getId();
-    }
-
-    @GetMapping("/user/tasks")
+    @GetMapping("/tasks")
     public ResponseEntity<String> getTasksFromUser(Principal principal){
         int userId = userRepository.findByUsername(principal.getName()).getId();
         UserDTO userWithTasks = userRepository.getUser(userId);
@@ -43,9 +45,5 @@ public class UserEndpoint {
         return new ResponseEntity<>(gson.toJson(filteredTasks), HttpStatus.OK);
     }
 
-    @GetMapping("/user")
-    public ResponseEntity<String> getUser(@RequestParam int userId){
-        UserDTO user = userRepository.getUser(userId);
-        return new ResponseEntity<>(gson.toJson(user), HttpStatus.OK);
-    }
+
 }
