@@ -14,12 +14,10 @@ import java.util.stream.Collectors;
 
 public class ProjectLogic {
 
-    public Project createProject(int companyId, String projectName, String endDate, CompanyDTO company) throws ParseException {
+    public Project createProject(String projectName, String endDate, CompanyDTO company) throws ParseException {
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'");
         sdf.setTimeZone(TimeZone.getTimeZone("UTC"));
         Date date = sdf.parse(endDate);
-
-
 
         return new Project(projectName, date, new Company(company), true);
     }

@@ -45,7 +45,7 @@ public class ProjectEndpoint {
         int companyId = Integer.parseInt(body.get("companyId"));
 
         CompanyDTO company = companyRepo.findCompanyById(companyId);
-        Project project = projectLogic.createProject(companyId, projectName, endDate, company);
+        Project project = projectLogic.createProject(projectName, endDate, company);
         if(body.get("projectId") != null){
             project.setId(Integer.parseInt(body.get("projectId")));
         }
