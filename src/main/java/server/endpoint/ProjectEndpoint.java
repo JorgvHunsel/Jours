@@ -17,9 +17,10 @@ import server.repository.ProjectRepo;
 import server.repository.TaskRepo;
 
 import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.*;
+import java.util.List;
+import java.util.Map;
 
+@RequestMapping(value ="/project")
 @RestController
 public class ProjectEndpoint {
 
@@ -37,20 +38,23 @@ public class ProjectEndpoint {
 
     Gson gson = new Gson();
 
-    @PostMapping("/project/create")
-    public ResponseEntity<String> createProject(@RequestBody Map<String, String> body) throws ParseException {
+    @PutMapping
+    public ResponseEntity<String> saveProject(@RequestBody Map<String, String> body) throws ParseException {
         String projectName = body.get("projectName");
         String endDate = body.get("endDate");
         int companyId = Integer.parseInt(body.get("companyId"));
 
         CompanyDTO company = companyRepo.findCompanyById(companyId);
-        Project newProject = projectLogic.createProject(companyId, projectName, endDate, company);
-        projectRepo.save(newProject);
+        Project project = projectLogic.createProject(companyId, projectName, endDate, company);
+        if(body.get("projectId") != null){
+            project.setId(Integer.parseInt(body.get("projectId")));
+        }
+        projectRepo.save(project);
 
-        return new ResponseEntity<>(gson.toJson(newProject), HttpStatus.OK);
+        return new ResponseEntity<>(gson.toJson(project), HttpStatus.OK);
     }
 
-    @GetMapping("/project/all")
+    @GetMapping("/all")
     public ResponseEntity<String> getProjectsFromCompany(@RequestParam int companyId){
         List<ProjectDTO> projectDTOS = projectRepo.getProjectByCompany(companyId);
         List<ProjectDTO> filteredProjects =  projectLogic.filterActiveProjects(projectDTOS);
@@ -58,7 +62,7 @@ public class ProjectEndpoint {
         return new ResponseEntity<>(gson.toJson(filteredProjects), HttpStatus.OK);
     }
 
-    @GetMapping("/project")
+    @GetMapping
     public ResponseEntity<String> getProject(@RequestParam int projectId){
         ProjectDTO project = projectRepo.getProjectById(projectId);
 
@@ -68,21 +72,7 @@ public class ProjectEndpoint {
         return new ResponseEntity<>(gson.toJson(project), HttpStatus.OK);
     }
 
-    @PutMapping("/project")
-    public ResponseEntity<String> updateProject(@RequestBody Map<String, String> body) throws ParseException {
-        String projectName = body.get("projectName");
-        String endDate = body.get("endDate");
-        int companyId = Integer.parseInt(body.get("companyId"));
-
-        CompanyDTO company = companyRepo.findCompanyById(companyId);
-        Project updatedProject = projectLogic.createProject(companyId, projectName, endDate, company);
-        updatedProject.setId(Integer.parseInt(body.get("projectId")));
-        projectRepo.save(updatedProject);
-
-        return new ResponseEntity<>(gson.toJson(updatedProject), HttpStatus.OK);
-    }
-
-    @PutMapping("/project/disable")
+    @PutMapping("/disable")
     public ResponseEntity<String> disableProject(@RequestParam int projectId) {
         ProjectDTO projectDTO = projectRepo.getProjectById(projectId);
 

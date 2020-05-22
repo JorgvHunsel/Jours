@@ -16,6 +16,7 @@ import server.service.CodeGenerator;
 import java.security.Principal;
 import java.util.Map;
 
+@RequestMapping(value="/company")
 @RestController
 public class CompanyEndpoint {
 
@@ -32,7 +33,7 @@ public class CompanyEndpoint {
 
     Gson gson = new Gson();
 
-    @PostMapping("/company/create")
+    @PostMapping("/create")
     public ResponseEntity<String> createCompany(@RequestBody Map<String, String> body, Principal principal) {
         int userId = userRepo.findByUsername(principal.getName()).getId();
         String companyName = body.get("companyName");
@@ -45,7 +46,7 @@ public class CompanyEndpoint {
         return new ResponseEntity<>(gson.toJson(newCompany), HttpStatus.OK);
     }
 
-    @PutMapping("/company/edit")
+    @PutMapping("/edit")
     public ResponseEntity<String> editCompany(@RequestBody Map<String, String> body) {
         int companyId = Integer.parseInt(body.get("companyId"));
         String companyName = body.get("companyName");
@@ -54,7 +55,7 @@ public class CompanyEndpoint {
         return new ResponseEntity<>(gson.toJson(companyId), HttpStatus.OK);
     }
 
-    @GetMapping("/company")
+    @GetMapping
     public ResponseEntity<String> getCompany(@RequestParam int companyId, Principal principal) {
         int userId = userRepo.findByUsername(principal.getName()).getId();
         CompanyDTO company = companyRepo.findUsersFromCompany(companyId);
@@ -63,7 +64,7 @@ public class CompanyEndpoint {
         return new ResponseEntity<>(gson.toJson(company), HttpStatus.OK);
     }
 
-    @GetMapping("/company/code")
+    @GetMapping("/code")
     public ResponseEntity<String> getNewCode(@RequestParam int companyId) {
         String newCode = CodeGenerator.getRandomNumberString();
         companyRepo.setCompanyCode(companyId, newCode);
@@ -71,7 +72,7 @@ public class CompanyEndpoint {
         return new ResponseEntity<>(gson.toJson(newCode), HttpStatus.OK);
     }
 
-    @PutMapping("/company/join")
+    @PutMapping("/join")
     public ResponseEntity<String> joinCompany(@RequestBody Map<String, String> body, Principal principal) {
         int userId = userRepo.findByUsername(principal.getName()).getId();
         String code = body.get("code");
