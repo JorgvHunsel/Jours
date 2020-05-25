@@ -2,7 +2,6 @@ package server.controller;
 
 import java.util.Map;
 
-import com.google.gson.Gson;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -18,7 +17,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 import server.config.JwtTokenUtil;
 import server.dto.UserDTO;
-import server.endpoint.UserEndpoint;
 import server.entity.DAOUser;
 import server.repository.UserRepo;
 import server.service.JwtUserDetailsService;

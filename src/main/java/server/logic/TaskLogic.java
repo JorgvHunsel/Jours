@@ -3,8 +3,9 @@ package server.logic;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import server.dto.TaskDTO;
-import server.service.CompanyService;
-import server.service.CompanyUserService;
+import server.entity.DAOUser;
+import server.entity.Project;
+import server.entity.Task;
 import server.service.TaskService;
 
 import java.util.List;
@@ -45,5 +46,17 @@ public class TaskLogic {
 
     public void disableTask(int projectId) {
         taskService.disableTask(projectId, "hidden");
+    }
+
+    public Task createTask(String name, String description, int projectId, List<DAOUser> usersFromTask) {
+        Task newTask = new Task(name, description, "to do", new Project(projectId), usersFromTask);
+        taskService.save(newTask);
+        return newTask;
+    }
+
+    public String changeTaskStatus(int taskId, String currentStatus, boolean direction) {
+        String newStatus = determineNewStatus(currentStatus, direction);
+        taskService.updateTaskStatus(taskId, newStatus);
+        return newStatus;
     }
 }

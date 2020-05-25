@@ -1,4 +1,4 @@
-package server.endpoint;
+package server.controller;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
@@ -10,33 +10,23 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import server.entity.DAOUser;
-import server.entity.Project;
 import server.entity.Task;
 import server.logic.TaskLogic;
-import server.repository.TaskRepo;
-import server.repository.UserRepo;
 
 import java.util.List;
 import java.util.Map;
 
 @RequestMapping(value="/task")
 @RestController
-public class TaskEndpoint {
-
+public class TaskController {
     TaskLogic taskLogic;
 
     @Autowired
-    public TaskEndpoint(TaskLogic taskLogic){
+    public TaskController(TaskLogic taskLogic){
         this.taskLogic = taskLogic;
     }
 
-    @Autowired
-    TaskRepo taskRepo;
-    @Autowired
-    UserRepo userRepository;
-
     Gson gson = new Gson();
-
 
     @PostMapping("/create")
     public ResponseEntity<String> createTask(@RequestBody Map<String, String> body){
@@ -45,8 +35,14 @@ public class TaskEndpoint {
         int projectId = Integer.parseInt(body.get("projectId"));
         List<DAOUser> usersFromTask = gson.fromJson(body.get("users"), new TypeToken<List<DAOUser>>(){}.getType());
 
-        Task newTask = new Task(name, description, "to do", new Project(projectId), usersFromTask);
-        taskRepo.save(newTask);
+        Task newTask;
+        try{
+            newTask = taskLogic.createTask(name, description, projectId, usersFromTask);
+        }
+        catch(Exception e){
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
+
         return new ResponseEntity<>(gson.toJson(newTask), HttpStatus.OK);
     }
 
@@ -56,8 +52,13 @@ public class TaskEndpoint {
         String currentStatus = body.get("status");
         boolean direction = Boolean.parseBoolean(body.get("direction"));
 
-        String newStatus = taskLogic.determineNewStatus(currentStatus, direction);
-        taskRepo.updateTaskStatus(taskId, newStatus);
+        String newStatus;
+        try{
+            newStatus = taskLogic.changeTaskStatus(taskId, currentStatus, direction);
+        }
+        catch(Exception e){
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
 
         return new ResponseEntity<>(newStatus, HttpStatus.OK);
     }
