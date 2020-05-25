@@ -7,6 +7,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import server.dto.WorkDTO;
 import server.entity.Work;
+import server.logic.TaskLogic;
 import server.logic.UserLogic;
 import server.logic.WorkLogic;
 
@@ -20,11 +21,13 @@ public class WorkController {
 
     WorkLogic workLogic;
     UserLogic userLogic;
+    TaskLogic taskLogic;
 
     @Autowired
-    public WorkController(WorkLogic workLogic, UserLogic userLogic) {
+    public WorkController(WorkLogic workLogic, UserLogic userLogic, TaskLogic taskLogic) {
         this.workLogic = workLogic;
         this.userLogic = userLogic;
+        this.taskLogic = taskLogic;
     }
 
     Gson gson = new Gson();
@@ -42,6 +45,7 @@ public class WorkController {
         Work newWork;
         try {
             newWork = workLogic.addWork(userId, taskId, beginDate, endDate);
+            taskLogic.updateTaskStatus(taskId);
         } catch (Exception e) {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }

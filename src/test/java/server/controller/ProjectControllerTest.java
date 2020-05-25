@@ -43,7 +43,7 @@ class ProjectControllerTest {
         List<Task> taskList = new ArrayList<>();
         taskList.add(task);
 
-        Project project1 = new Project("projectName", new Date(), company, true);
+        Project project1 = new Project("projectName", new Date(), new Date(), company, true);
         project1.setId(1);
         project1.setTasks(taskList);
 

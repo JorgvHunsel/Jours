@@ -75,6 +75,7 @@ public class ProjectController {
             project = projectLogic.getProject(projectId);
             List<TaskDTO> filteredTasks = taskLogic.filterActiveTasks(project.getTasks());
             project.setTasks(filteredTasks);
+            project.setOverBudget(projectLogic.overBudget(project));
         }
         catch (Exception e){
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);

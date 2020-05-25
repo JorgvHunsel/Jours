@@ -5,6 +5,7 @@ import org.springframework.stereotype.Component;
 import server.dto.CompanyDTO;
 import server.dto.ProjectDTO;
 import server.dto.TaskDTO;
+import server.dto.WorkDTO;
 import server.entity.Company;
 import server.entity.Project;
 import server.service.ProjectService;
@@ -14,6 +15,7 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 import java.util.TimeZone;
+import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
 
 @Component
@@ -32,7 +34,7 @@ public class ProjectLogic {
         sdf.setTimeZone(TimeZone.getTimeZone("UTC"));
         Date date = sdf.parse(endDate);
 
-        return new Project(projectName, date, new Company(company), true);
+        return new Project(projectName, new Date(), date, new Company(company), true);
     }
 
     public List<ProjectDTO> filterActiveProjects(List<ProjectDTO> projectDTOS) {
@@ -63,9 +65,25 @@ public class ProjectLogic {
     public Project disableProject(int projectId) {
         ProjectDTO projectDTO = projectService.getProjectById(projectId);
 
-        Project projectToDisable = new Project(projectDTO.getName(), projectDTO.getEndDate(), new Company(projectDTO.getCompanyId()), false);
+        Project projectToDisable = new Project(projectDTO.getName(),projectDTO.getStartDate(), projectDTO.getEndDate(), new Company(projectDTO.getCompanyId()), false);
         projectToDisable.setId(projectId);
         projectService.save(projectToDisable);
         return projectToDisable;
+    }
+
+    public boolean overBudget(ProjectDTO project) {
+        int totalHoursWorkedOnProject = 0;
+        for(WorkDTO workDTO: project.getWorkList()){
+            long hoursWorkedInMillies = Math.abs(workDTO.getEndDate().getTime() - workDTO.getBeginDate().getTime());
+            int diff = (int) TimeUnit.HOURS.convert(hoursWorkedInMillies, TimeUnit.MILLISECONDS);
+            totalHoursWorkedOnProject = totalHoursWorkedOnProject + diff;
+        }
+
+        long projectDurationInMillies = Math.abs(project.getEndDate().getTime() - project.getStartDate().getTime());
+        int projectDuration = (int) TimeUnit.DAYS.convert(projectDurationInMillies, TimeUnit.MILLISECONDS);
+
+        int budget = projectDuration * 9;
+
+        return budget < totalHoursWorkedOnProject;
     }
 }

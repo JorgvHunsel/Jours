@@ -6,6 +6,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import server.dto.TaskDTO;
 import server.dto.UserDTO;
@@ -27,8 +28,7 @@ public class UserController {
     Gson gson = new Gson();
 
     @GetMapping
-    public ResponseEntity<String> getUser(Principal principal){
-        int userId = userLogic.findByUsername(principal.getName()).getId();
+    public ResponseEntity<String> getUser(Principal principal, @RequestParam int userId){
 
         UserDTO user;
         try{

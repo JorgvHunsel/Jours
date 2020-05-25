@@ -66,4 +66,11 @@ public class TaskLogic {
         taskService.updateTaskStatus(taskId, newStatus);
         return newStatus;
     }
+
+    public void updateTaskStatus(int taskId) {
+        TaskDTO taskDTO = taskService.findTaskById(taskId);
+        if(taskDTO.getStatus().equals("to do")){
+            changeTaskStatus(taskId, taskDTO.getStatus(), true);
+        }
+    }
 }

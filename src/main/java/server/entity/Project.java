@@ -19,6 +19,10 @@ public class Project {
     @Column(name = "name")
     private String name;
 
+
+    @Column(name="startDate")
+    private Date startDate;
+
     @Column(name = "endDate")
     private Date endDate;
 
@@ -34,8 +38,9 @@ public class Project {
 
 
 
-    public Project(String name, Date endDate, Company company, boolean active) {
+    public Project(String name,Date startDate, Date endDate, Company company, boolean active) {
         this.name = name;
+        this.startDate = startDate;
         this.endDate = endDate;
         this.company = company;
         this.active = active;
@@ -97,4 +102,13 @@ public class Project {
     public void setActive(Boolean active) {
         this.active = active;
     }
+
+    public Date getStartDate() {
+        return startDate;
+    }
+
+    public void setStartDate(Date startDate) {
+        this.startDate = startDate;
+    }
+
 }

@@ -1,6 +1,7 @@
 package server.service;
 
 import org.springframework.stereotype.Service;
+import server.dto.TaskDTO;
 import server.entity.Task;
 import server.repository.TaskRepo;
 
@@ -16,4 +17,6 @@ public class TaskService {
     public void save(Task newTask) {
         taskRepo.save(newTask);
     }
+
+    public TaskDTO findTaskById(int taskId){return this.taskRepo.findTaskById(taskId);}
 }

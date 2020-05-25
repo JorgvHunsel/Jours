@@ -12,9 +12,11 @@ import java.util.List;
 public class ProjectDTO {
     private int id;
     private String name;
+    private Date startDate;
     private Date endDate;
     private int companyId;
     private boolean active;
+    private boolean overBudget;
 
     private String currentUserRole;
 
@@ -40,6 +42,7 @@ public class ProjectDTO {
     public ProjectDTO(Project project){
        this.companyId = project.getCompany().getId();
         this.name = project.getName();
+        this.startDate = project.getStartDate();
         this.endDate = project.getEndDate();
         workList = new ArrayList<>();
         tasks = new ArrayList<>();
@@ -113,5 +116,21 @@ public class ProjectDTO {
 
     public void setActive(boolean active) {
         this.active = active;
+    }
+
+    public Date getStartDate() {
+        return startDate;
+    }
+
+    public void setStartDate(Date startDate) {
+        this.startDate = startDate;
+    }
+
+    public boolean isOverBudget() {
+        return overBudget;
+    }
+
+    public void setOverBudget(boolean overBudget) {
+        this.overBudget = overBudget;
     }
 }
