@@ -4,10 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import server.dto.TaskDTO;
 import server.dto.UserDTO;
-import server.entity.Company;
 import server.entity.DAOUser;
-import server.service.CompanyService;
-import server.service.CompanyUserService;
 import server.service.UserService;
 
 import java.util.List;

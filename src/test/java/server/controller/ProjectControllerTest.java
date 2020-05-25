@@ -38,23 +38,16 @@ class ProjectControllerTest {
     void setUp() throws ParseException {
         Company company = new Company(1);
         CompanyDTO companyDTO = new CompanyDTO(company.getId(), "company");
-//        DAOUser user =  new DAOUser(1, "henk", "password");
+
         Task task =  new Task(1, "doing");
         List<Task> taskList = new ArrayList<>();
         taskList.add(task);
-
-//        List<Work> workList = new ArrayList<>();
-//        Work work = new Work(1, new Date(), new Date(),  user, task);
-//        workList.add(work);
 
         Project project1 = new Project("projectName", new Date(), company, true);
         project1.setId(1);
         project1.setTasks(taskList);
 
         ProjectDTO projectDTO = new ProjectDTO(project1.getId(), project1.getName(), project1.getEndDate(), true);
-
-//        List<Project> projects = new ArrayList<>();
-//        projects.add(project1);
 
 
         List<ProjectDTO> projectDTOS = new ArrayList<>();

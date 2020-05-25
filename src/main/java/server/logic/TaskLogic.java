@@ -14,11 +14,15 @@ import java.util.stream.Collectors;
 @Component
 public class TaskLogic {
 
-    private final TaskService taskService;
+    private TaskService taskService = null;
 
     @Autowired
     public TaskLogic(TaskService taskService){
         this.taskService = taskService;
+    }
+
+    public TaskLogic(){
+
     }
 
     public List<TaskDTO> filterActiveTasks(List<TaskDTO> tasks) {
@@ -28,7 +32,10 @@ public class TaskLogic {
     public String determineNewStatus(String oldStatus, boolean direction) {
         switch (oldStatus) {
             case "to do":
-                return "doing";
+                if(direction){
+                    return "doing";
+                }
+                return "to do";
             case "doing":
                 if (direction) {
                     return "done";
