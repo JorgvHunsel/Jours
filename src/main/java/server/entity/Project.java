@@ -36,8 +36,6 @@ public class Project {
     private List<Task> tasks;
 
 
-
-
     public Project(String name,Date startDate, Date endDate, Company company, boolean active) {
         this.name = name;
         this.startDate = startDate;
@@ -45,9 +43,6 @@ public class Project {
         this.company = company;
         this.active = active;
     }
-
-
-
 
     public Project(int projectId){
         this.id = projectId;
